@@ -7,6 +7,15 @@
     background-color: #060d7c;
     margin: 20px;
 }
+.card input{
+    height: 15px;
+}
+.error{
+    color: red;
+    padding: 0;
+    margin: 0;
+    border-color: red;
+}
 .card h3{
     margin: 0;
     margin-bottom: 5px;
@@ -18,9 +27,28 @@
     list-style: none;
     font-size: 25px;
 }
+.is_done{
+    opacity: 0.7;
+}
 .card li{
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 10px;
+}
+.btns{
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.btn{
+    padding: 5px 10px;
+    background-color: #131947;
+    color: #ffffff;
+}
+.active_btn{
+    padding: 5px 10px;
+    background-color: #6cbf2b;
+    color: #ffffff;
 }

@@ -13,7 +13,7 @@ const InputElement = (props:inputType) => {
     }
 
     let addFunc=()=>{
-        if (title!=''){
+        if (title!==''){
             props.add(title.trim())
             setTitle('')
             setError(false)
@@ -23,7 +23,7 @@ const InputElement = (props:inputType) => {
     }
 
     let enterBtn=(e:KeyboardEvent<HTMLInputElement>)=>{
-           if (e.charCode==13){
+           if (e.charCode===13){
                addFunc()
                setTitle('')
            }

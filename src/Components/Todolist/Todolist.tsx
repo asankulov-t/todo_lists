@@ -1,7 +1,8 @@
-import React, {ChangeEvent, useState,KeyboardEvent} from "react";
+import React from "react";
 import {FilterType, TasksType} from "../../App";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
+import EditableSpan from "../EditableSpan/EditableSpan";
 
 type PropsType = {
     removeTodo:(id:string)=>void,
@@ -30,7 +31,7 @@ function Todolist(props: PropsType) {
                 <InputElement add={localAddFunc}/>
             </div>
             <ul>
-                {props.tasks.map((item) => {
+                {props.tasks?props.tasks.map((item) => {
                     const onRemoveHandler=()=>{
                         props.removeTask(item.id,props.id)
                     }
@@ -38,16 +39,16 @@ function Todolist(props: PropsType) {
                         props.changeStatus(item.id, props.id)
                     }
                     return <li key={item.id} className={item.isDone?style.is_done:''}>
-                        <div>
+                        <div className={style.list}>
                             <input type="checkbox"
                                    checked={item.isDone}
                                    onChange={changeCheck}
                             />
-                            <span>{item.title}</span>
+                            <EditableSpan title={item.title}/>
                         </div>
                             <button onClick={onRemoveHandler}>x</button>
                            </li>
-                })}
+                }):''}
 
             </ul>
             <div className={style.btns}>

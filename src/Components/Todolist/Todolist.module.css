@@ -17,6 +17,11 @@
     font-weight: 700;
     font-size: 30px;
 }
+.list{
+    display: flex;
+    align-items: baseline;
+    text-align: center;
+}
 .card ul{
     padding-left: 0;
     list-style: none;

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
+import InputElement from "./Components/Input/InputElement";
 
 export type TasksType = {
     id: string,
@@ -13,14 +14,12 @@ export type TodoListType={
     title:string,
     filter:FilterType
 }
+export type TasksStateType={
+    [key:string]:Array<TasksType>
+}
+
 export type FilterType="All"|"Active"|"Completed"
 function App() {
-
-
-    //funtions
-
-
-
 
     //filter
     let todoID1=v1();
@@ -31,7 +30,7 @@ function App() {
         {id:todoID2, title:'What to byu', filter:'All'}
     ])
 
-    let [tasks, setTasks]=useState({
+    let [tasks, setTasks]=useState<TasksStateType>({
 
             [todoID1]:[
             {id: v1(), title: 'css', isDone: true},
@@ -44,8 +43,19 @@ function App() {
             ]
 })
 
+
+    let addTodo=(title:string)=>{
+        let todoList:TodoListType={
+            id:v1(),
+            title,
+            filter:'All'
+        }
+        setTodolist([todoList, ...todolists])
+        setTasks({...tasks, [todoList.id]:[]})
+    }
+
     let removeTodo=(id:string)=>{
-        let deleted=todolists.filter((r)=>r.id!=id);
+        let deleted=todolists.filter((r)=>r.id!==id);
         setTodolist(deleted)
     }
     let removeTask = (id: string,todoId:string) => {
@@ -82,17 +92,17 @@ function App() {
 
     return (
         <div className="App">
+            <InputElement add={addTodo}/>
             {
                 todolists.map((tl)=>{
                     let todos=tasks[tl.id];
+
                     if (tl.filter==='Completed'){
                         todos=todos.filter((t)=>t.isDone===true)
                     }
                     if (tl.filter==='Active'){
                         todos=todos.filter((t)=>t.isDone===false)
                     }
-
-
                     return <Todolist
                         removeTodo={removeTodo}
                         key={tl.id}

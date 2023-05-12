@@ -5,7 +5,9 @@ import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
 
 type PropsType = {
+    changeTitleTodo:(todoId:string, title:string)=>void,
     removeTodo:(id:string)=>void,
+    changTaskTitle:(todoID:string,taskId:string,title:string)=>void,
     id:string,
     filter:FilterType
     changeStatus:(id:string,todoId:string)=>void
@@ -24,9 +26,15 @@ function Todolist(props: PropsType) {
             props.addTask(title.trim(),props.id)
     }
 
+    const changeTodoTitleHendler=(title:string)=>{
+            props.changeTitleTodo(props.id, title)
+    }
+
+
     return (
         <div className={style.card}>
-            <h3>{props.title} <button onClick={()=>props.removeTodo(props.id)}>X</button></h3>
+            <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
+            <button onClick={()=>props.removeTodo(props.id)}>X</button></h3>
             <div>
                 <InputElement add={localAddFunc}/>
             </div>
@@ -38,13 +46,16 @@ function Todolist(props: PropsType) {
                     const changeCheck=()=>{
                         props.changeStatus(item.id, props.id)
                     }
+                    const changeTitleTask=(title:string)=>{
+                        props.changTaskTitle(props.id,item.id, title)
+                    }
                     return <li key={item.id} className={item.isDone?style.is_done:''}>
                         <div className={style.list}>
                             <input type="checkbox"
                                    checked={item.isDone}
                                    onChange={changeCheck}
                             />
-                            <EditableSpan title={item.title}/>
+                            <EditableSpan title={item.title} onChange={changeTitleTask}/>
                         </div>
                             <button onClick={onRemoveHandler}>x</button>
                            </li>

@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 
 export type EditType = {
-    title: string
+    title: string,
+    onChange:(title:string)=>void
 }
 
 
@@ -17,7 +18,14 @@ const EditableSpan = (props: EditType) => {
     }
     const viewModeActivate=()=>{
         setEditMode(false)
+        props.onChange(title)
     }
+
+    const finishEditHendler=()=>{
+        props.onChange(title)
+    }
+
+
     return (
         <div >
             {editMode ? <input

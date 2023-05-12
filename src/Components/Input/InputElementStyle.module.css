@@ -1,0 +1,18 @@
+.inputBlock{
+    height: 20px;
+    display: flex;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.inputBlock input{
+    width: 100%;
+}
+.inputBlock button{
+}
+.error{
+    color: red;
+    padding: 0;
+    margin: 0;
+    border-color: red;
+}

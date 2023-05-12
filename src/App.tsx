@@ -15,11 +15,7 @@ export type TodoListType={
 }
 export type FilterType="All"|"Active"|"Completed"
 function App() {
-    let [tasks, setTasks] = useState<Array<TasksType>>([
-        {id: v1(), title: 'css', isDone: true},
-        {id: v1(), title: 'HTML', isDone: false},
-        {id: v1(), title: 'JavaScript', isDone: true},
-    ])
+
 
     //funtions
 
@@ -27,16 +23,36 @@ function App() {
 
 
     //filter
-
+    let todoID1=v1();
+    let todoID2=v1();
 
     let [todolists, setTodolist]=useState<Array<TodoListType>>([
-        {id:v1(), title:'What to learn', filter:'All'},
-        {id:v1(), title:'What to byu', filter:'All'}
+        {id:todoID1, title:'What to learn', filter:'All'},
+        {id:todoID2, title:'What to byu', filter:'All'}
     ])
 
-    let removeTask = (id: string) => {
-        let newTasks = tasks.filter((t) => t.id !== id)
-        setTasks(newTasks)
+    let [tasks, setTasks]=useState({
+
+            [todoID1]:[
+            {id: v1(), title: 'css', isDone: true},
+            {id: v1(), title: 'HTML', isDone: false},
+            {id: v1(), title: 'JavaScript', isDone: true},],
+            [todoID2]:[
+                {id: v1(), title: 'PC', isDone: true},
+                {id: v1(), title: 'Playstation', isDone: false},
+                {id: v1(), title: 'Weed', isDone: true},
+            ]
+})
+
+    let removeTodo=(id:string)=>{
+        let deleted=todolists.filter((r)=>r.id!=id);
+        setTodolist(deleted)
+    }
+    let removeTask = (id: string,todoId:string) => {
+        let taskObj=tasks[todoId]
+        let newTasks = taskObj.filter((t) => t.id !== id)
+        tasks[todoId]=newTasks
+        setTasks({...tasks})
     }
     let changeFilter=(todoId:string,value:FilterType)=>{
         let newTd=todolists.find((t)=>t.id===todoId)
@@ -45,18 +61,22 @@ function App() {
             setTodolist([...todolists])
         }
     }
-    let addTask=(title:string)=>{
-        let newTask={id:v1(), title,isDone:false}
-        setTasks([newTask, ...tasks])
+    let addTask=(title:string,todoId:string)=>{
+        let newTask={id:v1(), title,isDone:false}//create new object(task)
+        let task=tasks[todoId];//get need tasks
+        let newAlltasks=[newTask,...task]//connect new and old tasks
+        tasks[todoId]=newAlltasks//Rewrite needed tasks
+        setTasks({...tasks})//reset tasks
     }
-    let changeStatus=(id:string)=>{
-        let change=tasks.map((t)=>{
+    let changeStatus=(id:string,todoId:string)=>{
+        let change=tasks[todoId].map((t)=>{
             if (id===t.id){
                 t.isDone=!t.isDone;
                 return t
             } return  t
         })
-        setTasks(change)
+        tasks[todoId]=change
+        setTasks({...tasks})
     }
 
 
@@ -64,16 +84,17 @@ function App() {
         <div className="App">
             {
                 todolists.map((tl)=>{
-                    let todos=tasks;
+                    let todos=tasks[tl.id];
                     if (tl.filter==='Completed'){
-                        todos=tasks.filter((t)=>t.isDone===true)
+                        todos=todos.filter((t)=>t.isDone===true)
                     }
                     if (tl.filter==='Active'){
-                        todos=tasks.filter((t)=>t.isDone===false)
+                        todos=todos.filter((t)=>t.isDone===false)
                     }
 
 
                     return <Todolist
+                        removeTodo={removeTodo}
                         key={tl.id}
                         id={tl.id}
                         filter={tl.filter}
@@ -84,9 +105,7 @@ function App() {
                         tasks={todos}
                         title={tl.title}/>
                 })
-
             }
-
         </div>
     );
 }

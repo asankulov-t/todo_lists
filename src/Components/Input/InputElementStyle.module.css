@@ -1,14 +1,11 @@
 .inputBlock{
     height: 20px;
     display: flex;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+    align-items: center;
 }
+
 .inputBlock input{
-    width: 100%;
-}
-.inputBlock button{
+    height: 31px;
 }
 .error{
     color: red;

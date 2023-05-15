@@ -1,3 +1,4 @@
+import {Button, Input} from 'antd';
 import React, {ChangeEvent, useState,KeyboardEvent} from 'react';
 import style from './InputElementStyle.module.css'
 export type inputType={
@@ -31,14 +32,16 @@ const InputElement = (props:inputType) => {
 
     return <div>
         <div className={style.inputBlock}>
-            <input
-                className={error?style.error:""}
+            <Input
+                status={error?"error":''}
+                placeholder="Write something"
+                size="large"
                 value={title}
                 onChange={changeInput}
                 onKeyPress={enterBtn}
                 type={"text"}
             />
-            <button onClick={()=>addFunc()}>+</button>
+            <Button ghost onClick={()=>addFunc()}>+</Button>
 
         </div>
         <p className={style.error}>{error?'Field is Empty':''}</p>

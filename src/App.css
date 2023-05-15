@@ -1,6 +1,5 @@
 .App {
   display: flex;
-  background: rgb(9,16,27);
   background: linear-gradient(278deg, rgba(9,16,27,1) 0%, rgba(35,79,158,1) 85%);
   height: 100vh;
 }

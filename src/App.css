@@ -1,7 +1,16 @@
 .App {
-  display: flex;
-  background: linear-gradient(278deg, rgba(9,16,27,1) 0%, rgba(35,79,158,1) 85%);
   height: 100vh;
-}
 
+}
+.todos{
+  display: flex;
+  flex-wrap: wrap;
+}
+.icon svg{
+  width: 50px;
+  height: 28px;
+}
+.cart{
+  margin: 20px;
+}
 

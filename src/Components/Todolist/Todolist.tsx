@@ -35,7 +35,7 @@ function Todolist(props: PropsType) {
     return (
         <div className={style.card}>
             <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
-                <button onClick={() => props.removeTodo(props.id)}>X</button>
+                <DeleteOutlined onClick={() => props.removeTodo(props.id)}></DeleteOutlined>
             </h3>
             <div>
                 <InputElement add={localAddFunc}/>

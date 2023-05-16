@@ -7,6 +7,9 @@
 .inputBlock input{
     height: 31px;
 }
+.inputBlock button{
+    color: #131947;
+}
 .error{
     color: red;
     padding: 0;

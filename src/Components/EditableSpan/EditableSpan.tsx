@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
-
+import style from './EditableSpan.module.css'
+import {Input} from "antd";
 export type EditType = {
     title: string,
     onChange:(title:string)=>void
@@ -28,13 +29,13 @@ const EditableSpan = (props: EditType) => {
 
     return (
         <div >
-            {editMode ? <input
+            {editMode ? <Input
                                 onChange={onChangeTitleHandler}
                                 onBlur={viewModeActivate}
                                 autoFocus
                                 type="text"
                                 value={title}/> :
-                <span  onDoubleClick={activeMode}>{title}</span>}
+                <span className={style.span} onDoubleClick={activeMode}>{title}</span>}
         </div>
     );
 };

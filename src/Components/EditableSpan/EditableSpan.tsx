@@ -22,9 +22,9 @@ const EditableSpan = (props: EditType) => {
         props.onChange(title)
     }
 
-    const finishEditHendler=()=>{
-        props.onChange(title)
-    }
+    // const finishEditHendler=()=>{
+    //     props.onChange(title)
+    // }
 
 
     return (

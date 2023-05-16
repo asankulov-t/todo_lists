@@ -4,7 +4,7 @@ import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
 import {Card, Menu, MenuProps} from 'antd';
-import {LoginOutlined, MailOutlined } from '@ant-design/icons';
+import {LoginOutlined, MailOutlined} from '@ant-design/icons';
 
 export type TasksType = {
     id: string,
@@ -29,7 +29,7 @@ function App() {
             key: 'Login',
             icon: <LoginOutlined className={'icon'}/>,
         }
-        ]
+    ]
     //filter
     let todoID1 = v1();
     let todoID2 = v1();
@@ -118,45 +118,45 @@ function App() {
     }
 
 
-return (
+    return (
         <div className="App">
             <Menu
                 triggerSubMenuAction={'hover'}
                 selectable={false}
-                  style={{fontSize:'35px',fontWeight:'700',color:'#fff',height:'70px',alignItems:'center'}}
-                  mode="horizontal"
-                  theme={"dark"}
-                  items={items} />;
+                style={{fontSize: '35px', fontWeight: '700', color: '#fff', height: '70px', alignItems: 'center'}}
+                mode="horizontal"
+                theme={"dark"}
+                items={items}/>;
             <InputElement add={addTodo}/>
-           <div className={'todos'}>
-               {
-                   todolists.map((tl) => {
-                       let todos = tasks[tl.id];
+            <div className={'todos'}>
+                {
+                    todolists.map((tl) => {
+                        let todos = tasks[tl.id];
 
-                       if (tl.filter === 'Completed') {
-                           todos = todos.filter((t) => t.isDone === true)
-                       }
-                       if (tl.filter === 'Active') {
-                           todos = todos.filter((t) => t.isDone === false)
-                       }
-                       return <Card className={'cart'} hoverable={true}>
-                           <Todolist
-                               changeTitleTodo={changeTitleTodo}
-                               changTaskTitle={changTaskTitle}
-                               removeTodo={removeTodo}
-                               key={tl.id}
-                               id={tl.id}
-                               filter={tl.filter}
-                               changeStatus={changeStatus}
-                               addTask={addTask}
-                               changeFilter={changeFilter}
-                               removeTask={removeTask}
-                               tasks={todos}
-                               title={tl.title}/>
-                       </Card>
-                   })
-               }
-           </div>
+                        if (tl.filter === 'Completed') {
+                            todos = todos.filter((t) => t.isDone === true)
+                        }
+                        if (tl.filter === 'Active') {
+                            todos = todos.filter((t) => t.isDone === false)
+                        }
+                        return <Card className={'cart'} hoverable={true}>
+                            <Todolist
+                                changeTitleTodo={changeTitleTodo}
+                                changTaskTitle={changTaskTitle}
+                                removeTodo={removeTodo}
+                                key={tl.id}
+                                id={tl.id}
+                                filter={tl.filter}
+                                changeStatus={changeStatus}
+                                addTask={addTask}
+                                changeFilter={changeFilter}
+                                removeTask={removeTask}
+                                tasks={todos}
+                                title={tl.title}/>
+                        </Card>
+                    })
+                }
+            </div>
         </div>
     );
 }

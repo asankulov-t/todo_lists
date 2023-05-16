@@ -51,6 +51,8 @@ function App() {
             {id: v1(), title: 'Weed', isDone: true},
         ]
     })
+
+
     let changeTitleTodo = (todoId: string, title: string) => {
         let newArr = todolists.map((t) => {
             if (todoId === t.id) {
@@ -70,6 +72,14 @@ function App() {
         setTodolist([todoList, ...todolists])
         setTasks({...tasks, [todoList.id]: []})
     }
+    let changeFilter = (todoId: string, value: FilterType) => {
+        let newTd = todolists.find((t) => t.id === todoId)
+        if (newTd) {
+            newTd.filter = value;
+            setTodolist([...todolists])
+        }
+    }
+
     let changTaskTitle = (todoId: string, taskId: string, title: string) => {
         let change = tasks[todoId].map((t) => {
             if (taskId === t.id) {
@@ -91,13 +101,7 @@ function App() {
         tasks[todoId] = newTasks
         setTasks({...tasks})
     }
-    let changeFilter = (todoId: string, value: FilterType) => {
-        let newTd = todolists.find((t) => t.id === todoId)
-        if (newTd) {
-            newTd.filter = value;
-            setTodolist([...todolists])
-        }
-    }
+
     let addTask = (title: string, todoId: string) => {
         let newTask = {id: v1(), title, isDone: false}//create new object(task)
         let task = tasks[todoId];//get need tasks

@@ -1,7 +1,7 @@
 {
   "name": "todo_list",
   "version": "0.1.0",
-  "homepage": "https://asankulov-t.github.io/todolists",
+  "homepage": "https://asankulov-t.github.io/todo_list",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.1",

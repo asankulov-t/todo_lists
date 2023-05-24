@@ -63,6 +63,10 @@ function App() {
         })
         setTodolist(newArr)
     }
+    let removeTodo = (id: string) => {
+        let deleted = todolists.filter((r) => r.id !== id);
+        setTodolist(deleted)
+    }
     let addTodo = (title: string) => {
         let todoList: TodoListType = {
             id: v1(),
@@ -91,10 +95,7 @@ function App() {
         tasks[todoId] = change
         setTasks({...tasks})
     }
-    let removeTodo = (id: string) => {
-        let deleted = todolists.filter((r) => r.id !== id);
-        setTodolist(deleted)
-    }
+
     let removeTask = (id: string, todoId: string) => {
         let taskObj = tasks[todoId]
         let newTasks = taskObj.filter((t) => t.id !== id)
@@ -120,7 +121,6 @@ function App() {
         tasks[todoId] = change
         setTasks({...tasks})
     }
-
 
     return (
         <div className="App">
@@ -164,6 +164,4 @@ function App() {
         </div>
     );
 }
-
-
 export default App;

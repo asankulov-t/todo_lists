@@ -7,7 +7,8 @@ export type REMOVE_TODO={
 }
 export type ADD_TODO={
     type:'ADD-TODO',
-    title:string
+    title:string,
+    todoID:string
 }
 export type CHANGE_TITLE={
     type:'CHANGE-TITLE',
@@ -27,12 +28,7 @@ export const todoListReducer=(state:Array<TodoListType>,action:actionTypes):Arra
             return state.filter((t)=>t.id!=action.id)
         }
         case "ADD-TODO":{
-            let newTd={
-                id:v1(),
-                title:action.title,
-                filter:'All'
-            }
-            return [{id:v1(),title:action.title, filter:'All'},...state]
+            return [{id:action.todoID,title:action.title, filter:'All'},...state]
         }
         case "CHANGE-TITLE":{
             return state.map((t)=>{
@@ -66,6 +62,7 @@ export const addTodoAc=(title:string):ADD_TODO=>{
     return {
         type:'ADD-TODO',
         title,
+        todoID:v1()
     }
 }
 export const changeTitleAc=(id:string,title:string):CHANGE_TITLE=>{

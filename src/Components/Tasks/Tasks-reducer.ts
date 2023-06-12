@@ -43,20 +43,20 @@ export const tasksReducer = (state: TasksStateType, action: actions): TasksState
             return {...state}
         case "ADD-TASK":
             let newT = {id: v1(), title: action.title, isDone: false};
-            let tasks = state[action.id];
-            let allTasks = [newT, ...tasks]
-            state[action.id] = allTasks
-            return {...state}
+            // let tasks = state[action.id];
+            // let allTasks = [{...newT}, ...tasks]
+            // state[action.id] = allTasks
+            return {...state,[action.id]:[newT,...state[action.id]]}
         case "CHANGE-STATUS":
             let change = state[action.todoId].map((t) => {
                 if (action.id === t.id) {
-                    t.isDone = !t.isDone;
+                    t.isDone =!t.isDone;
                     return t
                 }
                 return t
             })
             state[action.todoId] = change;
-            return {...state}
+            return state
         case "ADD-TODO": {
             const copy = {...state}
             copy[action.todoID] = []

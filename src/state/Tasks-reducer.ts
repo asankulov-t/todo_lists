@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {TasksStateType} from "../../App";
-import {ADD_TODO, REMOVE_TODO} from "../Todolist/TodoList-reducer";
+import {TasksStateType} from "../App";
+import {ADD_TODO, REMOVE_TODO, todoID1, todoID2} from "./TodoList-reducer";
 
 export type CHANGETASKTITLE = {
     type: "CHANGE-TASK-TITLE",
@@ -25,7 +25,21 @@ export type CHANGESTATUS = {
     todoId: string,
 }
 export type actions = CHANGETASKTITLE | REMOVETASK | ADDTASK | CHANGESTATUS | ADD_TODO|REMOVE_TODO
-export const tasksReducer = (state: TasksStateType, action: actions): TasksStateType => {
+
+const initialState:TasksStateType={
+
+    [todoID1]: [
+        {id: v1(), title: 'css', isDone: true},
+        {id: v1(), title: 'HTML', isDone: false},
+        {id: v1(), title: 'JavaScript', isDone: true},],
+    [todoID2]: [
+        {id: v1(), title: 'PC', isDone: true},
+        {id: v1(), title: 'Playstation', isDone: false},
+        {id: v1(), title: 'Weed', isDone: true},
+    ]
+}
+
+export const tasksReducer = (state: TasksStateType=initialState, action: actions): TasksStateType => {
     switch (action.type) {
         case "CHANGE-TASK-TITLE":
             let changed = state[action.todoId].map((t) => {
@@ -49,15 +63,6 @@ export const tasksReducer = (state: TasksStateType, action: actions): TasksState
             return {...state,[action.id]:[newT,...state[action.id]]}
         case "CHANGE-STATUS":
             return {...state,[action.todoId]:state[action.todoId].map((tl)=>tl.id===action.id?{...tl,isDone:!tl.isDone}:tl)}
-            // let change = state[action.todoId].map((t) => {
-            //     if (action.id === t.id) {
-            //         t.isDone =!t.isDone;
-            //         return t
-            //     }
-            //     return t
-            // })
-            // state[action.todoId] = change;
-            // return {...state}
         case "ADD-TODO": {
             const copy = {...state}
             copy[action.todoID] = []
@@ -67,8 +72,7 @@ export const tasksReducer = (state: TasksStateType, action: actions): TasksState
             const copy={...state}
             delete copy[action.id]
             return copy
-        default:
-            throw new Error("HZ")
+        default: return  state
 
     }
 }

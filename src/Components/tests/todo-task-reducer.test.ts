@@ -1,6 +1,6 @@
 import {TasksStateType, TodoListType} from "../../App";
-import {addTodoAc, removeTdAc, todoListReducer} from "../Todolist/TodoList-reducer";
-import {tasksReducer} from "../Tasks/Tasks-reducer";
+import {addTodoAc, removeTdAc, todoListReducer} from "../../state/TodoList-reducer";
+import {tasksReducer} from "../../state/Tasks-reducer";
 
 test("test tasks and todos",()=>{
     const taskState:TasksStateType={}

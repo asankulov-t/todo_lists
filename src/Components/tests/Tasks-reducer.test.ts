@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../../App";
-import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc, tasksReducer} from "../Tasks/Tasks-reducer";
-import {addTodoAc} from "../Todolist/TodoList-reducer";
+import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc, tasksReducer} from "../../state/Tasks-reducer";
+import {addTodoAc} from "../../state/TodoList-reducer";
 
 test('change title',()=>{
 

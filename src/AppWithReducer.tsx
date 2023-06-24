@@ -68,12 +68,13 @@ function AppWithReducer() {
     return (
         <div className="App">
             <Menu
+                className={'header'}
                 triggerSubMenuAction={'hover'}
                 selectable={false}
-                style={{fontSize: '35px', fontWeight: '700', color: '#fff', height: '70px', alignItems: 'center'}}
+                style={{fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px', alignItems: 'center'}}
                 mode="horizontal"
                 theme={"dark"}
-                items={items}/>;
+                items={items}/>
             <InputElement add={addTodo}/>
             <div className={'todos'}>
                 {
@@ -87,6 +88,7 @@ function AppWithReducer() {
                                 filter={tl.filter}
                                 changeFilter={changeFilter}
                                 title={tl.title}/>
+
                         </Card>
                     })
                 }

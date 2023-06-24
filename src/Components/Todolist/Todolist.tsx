@@ -3,7 +3,7 @@ import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
 import {Button, Checkbox, Space} from "antd";
-import {DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 import {FilterType, TasksStateType} from "../../AppWithReducer";
@@ -19,28 +19,27 @@ type PropsType = {
 }
 
 function Todolist(props: PropsType) {
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
-    const tasks=useSelector<AppRootState, TasksStateType>(state=>state.tasks);
+    const tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks);
 
     let changTaskTitle = (todoId: string, taskId: string, title: string) => {
-        let action=changeTaskTitleAc(todoId,taskId,title)
+        let action = changeTaskTitleAc(todoId, taskId, title)
         dispatch(action)
     }
     let removeTask = (id: string, todoId: string) => {
-        let action=removeTaskAc(todoId, id)
+        let action = removeTaskAc(todoId, id)
         dispatch(action)
     }
 
     let addTask = (title: string, todoId: string) => {
-        let action=addTaskAc(title,todoId);
+        let action = addTaskAc(title, todoId);
         dispatch(action)
     }
     let changeStatus = (id: string, todoId: string) => {
-        let action=changeTaskAc(id,todoId);
+        let action = changeTaskAc(id, todoId);
         dispatch(action)
     }
-
 
 
     const localAddFunc = (title: string) => {
@@ -80,8 +79,8 @@ function Todolist(props: PropsType) {
                             <EditableSpan title={item.title} onChange={changeTitleTask}/>
                         </div>
                         <div>
-                            <EditOutlined />
-                            <DeleteOutlined className={style.treshs_icon} onClick={onRemoveHandler} />
+                            <EditOutlined/>
+                            <DeleteOutlined className={style.treshs_icon} onClick={onRemoveHandler}/>
                         </div>
                     </li>
                 }) : ''}

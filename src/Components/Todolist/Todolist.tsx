@@ -19,6 +19,7 @@ type PropsType = {
 }
 
 function Todolist(props: PropsType) {
+    console.log('Todolist is rendered')
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootState, Array<TasksType>>(state => state.tasks[props.id]);
 

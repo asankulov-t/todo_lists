@@ -5,14 +5,14 @@ export type inputType={
     add:(title:string)=>void
 }
 
-const InputElement = (props:inputType) => {
+const InputElement = React.memo((props:inputType) => {
     let [title, setTitle]=useState<string>("");
     let [error, setError]=useState<boolean>(false)
 
     let changeInput=(e:ChangeEvent<HTMLInputElement>)=>{
         setTitle(e.currentTarget.value)
     }
-
+    console.log('Input element rendered')
     let addFunc=()=>{
         if (title!==''){
             props.add(title.trim())
@@ -47,6 +47,6 @@ const InputElement = (props:inputType) => {
         <p className={style.error}>{error?'Field is Empty':''}</p>
     </div>
 
-};
+})
 
 export default InputElement;

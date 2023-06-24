@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
@@ -40,27 +40,27 @@ function AppWithReducer() {
             icon: <LoginOutlined className={'icon'}/>,
         }
     ]
-
+    console.log('App is rendered')
     const dispatch=useDispatch();
     const todoLists=useSelector<AppRootState, Array<TodoListType>>(state=>state.todoLists);
 
 
-    let changeTitleTodo = (todoId: string, title: string) => {
+    let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action=changeTitleAc(todoId, title)
         dispatch(action)
-    }
-    let removeTodo = (id: string) => {
+    },[])
+    let removeTodo = useCallback(()=>(id: string) => {
         let action=removeTdAc(id)
         dispatch(action)
-    }
-    let addTodo = (title: string) => {
+    },[])
+    let addTodo = useCallback((title: string) => {
         let action=addTodoAc(title);
         dispatch(action)
-    }
-    let changeFilter = (todoId: string, value: FilterType) => {
+    },[])
+    let changeFilter = useCallback(()=>(todoId: string, value: FilterType) => {
         let action=changeFilterAc(todoId,value)
-       dispatch(action)
-    }
+        dispatch(action)
+    },[])
 
 
 

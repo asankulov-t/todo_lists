@@ -1,30 +1,50 @@
 import React from "react";
-import {FilterType, TasksType} from "../../App";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
 import {Button, Checkbox, Space} from "antd";
 import {CheckOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootState} from "../../state/store";
+import {FilterType, TasksStateType} from "../../AppWithReducer";
+import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
     removeTodo: (id: string) => void,
-    changTaskTitle: (todoID: string, taskId: string, title: string) => void,
     id: string,
     filter: FilterType
-    changeStatus: (id: string, todoId: string) => void
-    addTask: (title: string, todoId: string) => void
-    removeTask: (id: string, todoId: string) => void,
     changeFilter: (todoId: string, value: FilterType) => void,
     title: string,
-    tasks: Array<TasksType>
 }
 
 function Todolist(props: PropsType) {
+    const dispatch=useDispatch();
+
+    const tasks=useSelector<AppRootState, TasksStateType>(state=>state.tasks);
+
+    let changTaskTitle = (todoId: string, taskId: string, title: string) => {
+        let action=changeTaskTitleAc(todoId,taskId,title)
+        dispatch(action)
+    }
+    let removeTask = (id: string, todoId: string) => {
+        let action=removeTaskAc(todoId, id)
+        dispatch(action)
+    }
+
+    let addTask = (title: string, todoId: string) => {
+        let action=addTaskAc(title,todoId);
+        dispatch(action)
+    }
+    let changeStatus = (id: string, todoId: string) => {
+        let action=changeTaskAc(id,todoId);
+        dispatch(action)
+    }
+
 
 
     const localAddFunc = (title: string) => {
-        props.addTask(title.trim(), props.id)
+        addTask(title.trim(), props.id)
     }
 
     const changeTodoTitleHendler = (title: string) => {
@@ -41,15 +61,15 @@ function Todolist(props: PropsType) {
                 <InputElement add={localAddFunc}/>
             </div>
             <ul>
-                {props.tasks ? props.tasks.map((item) => {
+                {tasks ? tasks[props.id].map((item) => {
                     const onRemoveHandler = () => {
-                        props.removeTask(item.id, props.id)
+                        removeTask(item.id, props.id)
                     }
                     const changeCheck = () => {
-                        props.changeStatus(item.id, props.id)
+                        changeStatus(item.id, props.id)
                     }
                     const changeTitleTask = (title: string) => {
-                        props.changTaskTitle(props.id, item.id, title)
+                        changTaskTitle(props.id, item.id, title)
                     }
                     return <li key={item.id} className={item.isDone ? style.is_done : ''}>
                         <div className={style.list}>

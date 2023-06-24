@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../App";
-import {ADD_TODO, REMOVE_TODO, todoID1, todoID2} from "./TodoList-reducer";
+import {ADD_TODO, REMOVE_TODO} from "./TodoList-reducer";
 
 export type CHANGETASKTITLE = {
     type: "CHANGE-TASK-TITLE",
@@ -27,16 +27,16 @@ export type CHANGESTATUS = {
 export type actions = CHANGETASKTITLE | REMOVETASK | ADDTASK | CHANGESTATUS | ADD_TODO|REMOVE_TODO
 
 const initialState:TasksStateType={
-
-    [todoID1]: [
-        {id: v1(), title: 'css', isDone: true},
-        {id: v1(), title: 'HTML', isDone: false},
-        {id: v1(), title: 'JavaScript', isDone: true},],
-    [todoID2]: [
-        {id: v1(), title: 'PC', isDone: true},
-        {id: v1(), title: 'Playstation', isDone: false},
-        {id: v1(), title: 'Weed', isDone: true},
-    ]
+    //
+    // [todoID1]: [
+    //     {id: v1(), title: 'css', isDone: true},
+    //     {id: v1(), title: 'HTML', isDone: false},
+    //     {id: v1(), title: 'JavaScript', isDone: true},],
+    // [todoID2]: [
+    //     {id: v1(), title: 'PC', isDone: true},
+    //     {id: v1(), title: 'Playstation', isDone: false},
+    //     {id: v1(), title: 'Weed', isDone: true},
+    // ]
 }
 
 export const tasksReducer = (state: TasksStateType=initialState, action: actions): TasksStateType => {

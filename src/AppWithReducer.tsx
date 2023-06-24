@@ -10,7 +10,6 @@ import {
     changeFilterAc,
     changeTitleAc,
     removeTdAc,
-    todoListReducer
 } from "./state/TodoList-reducer";
 
 import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc, tasksReducer} from "./state/Tasks-reducer";
@@ -45,7 +44,6 @@ function AppWithReducer() {
 
     const dispatch=useDispatch();
     const todoLists=useSelector<AppRootState, Array<TodoListType>>(state=>state.todoLists);
-    const tasks=useSelector<AppRootState, TasksStateType>(state=>state.tasks);
 
 
     let changeTitleTodo = (todoId: string, title: string) => {
@@ -65,24 +63,8 @@ function AppWithReducer() {
        dispatch(action)
     }
 
-    let changTaskTitle = (todoId: string, taskId: string, title: string) => {
-        let action=changeTaskTitleAc(todoId,taskId,title)
-        dispatch(action)
-    }
 
-    let removeTask = (id: string, todoId: string) => {
-        let action=removeTaskAc(todoId, id)
-        dispatch(action)
-    }
 
-    let addTask = (title: string, todoId: string) => {
-        let action=addTaskAc(title,todoId);
-        dispatch(action)
-    }
-    let changeStatus = (id: string, todoId: string) => {
-        let action=changeTaskAc(id,todoId);
-        dispatch(action)
-    }
 
     return (
         <div className="App">
@@ -97,27 +79,14 @@ function AppWithReducer() {
             <div className={'todos'}>
                 {
                     todoLists.map((tl) => {
-                        let todos = tasks[tl.id];
-
-                        if (tl.filter === 'Completed') {
-                            todos = todos.filter((t) => t.isDone === true)
-                        }
-                        if (tl.filter === 'Active') {
-                            todos = todos.filter((t) => t.isDone === false)
-                        }
                         return <Card className={'cart'} hoverable={true}>
                             <Todolist
                                 changeTitleTodo={changeTitleTodo}
-                                changTaskTitle={changTaskTitle}
                                 removeTodo={removeTodo}
                                 key={tl.id}
                                 id={tl.id}
                                 filter={tl.filter}
-                                changeStatus={changeStatus}
-                                addTask={addTask}
                                 changeFilter={changeFilter}
-                                removeTask={removeTask}
-                                tasks={todos}
                                 title={tl.title}/>
                         </Card>
                     })

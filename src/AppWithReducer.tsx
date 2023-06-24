@@ -12,7 +12,6 @@ import {
     removeTdAc,
 } from "./state/TodoList-reducer";
 
-import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc, tasksReducer} from "./state/Tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 

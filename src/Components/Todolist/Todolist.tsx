@@ -3,7 +3,7 @@ import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
 import {Button, Checkbox, Space} from "antd";
-import {CheckOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 import {FilterType, TasksStateType} from "../../AppWithReducer";

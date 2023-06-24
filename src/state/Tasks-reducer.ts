@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {TasksStateType} from "../App";
 import {ADD_TODO, REMOVE_TODO} from "./TodoList-reducer";
+import {TasksStateType} from "../AppWithReducer";
 
 export type CHANGETASKTITLE = {
     type: "CHANGE-TASK-TITLE",

@@ -1,6 +1,6 @@
 import {addTodoAc, changeFilterAc, changeTitleAc, removeTdAc, todoListReducer} from '../../state/TodoList-reducer';
-import {TodoListType} from "../../App";
 import {v1} from "uuid";
+import {TodoListType} from "../../AppWithReducer";
 
 
 test('remove selected todo list',()=>{

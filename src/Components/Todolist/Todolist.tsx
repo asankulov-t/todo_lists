@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
@@ -18,17 +18,17 @@ type PropsType = {
     title: string,
 }
 
-function Todolist(props: PropsType) {
+const Todolist=React.memo((props: PropsType)=> {
     console.log('Todolist is rendered')
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootState, Array<TasksType>>(state => state.tasks[props.id]);
 
-    const localAddFunc = (title: string) => {
+    const localAddFunc = useCallback((title: string) => {
         dispatch(addTaskAc(title,props.id))
-    }
-    const changeTodoTitleHendler = (title: string) => {
+    },[])
+    const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)
-    }
+    },[])
     return (
         <div className={style.card}>
             <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
@@ -77,6 +77,6 @@ function Todolist(props: PropsType) {
             </div>
         </div>
     )
-}
+})
 
 export default Todolist;

@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 
-//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
+//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
 export type TasksType = {
     id: string,
     title: string,
@@ -41,30 +41,24 @@ function AppWithReducer() {
         }
     ]
     console.log('App is rendered')
-    const dispatch=useDispatch();
-    const todoLists=useSelector<AppRootState, Array<TodoListType>>(state=>state.todoLists);
-
-
+    const dispatch = useDispatch();
+    const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
-        let action=changeTitleAc(todoId, title)
+        let action = changeTitleAc(todoId, title)
         dispatch(action)
-    },[])
-    let removeTodo = useCallback(()=>(id: string) => {
-        let action=removeTdAc(id)
+    }, [])
+    let removeTodo = useCallback((id: string) => {
+        let action = removeTdAc(id)
         dispatch(action)
-    },[])
+    }, [])
     let addTodo = useCallback((title: string) => {
-        let action=addTodoAc(title);
+        let action = addTodoAc(title);
         dispatch(action)
-    },[])
-    let changeFilter = useCallback(()=>(todoId: string, value: FilterType) => {
-        let action=changeFilterAc(todoId,value)
+    }, [])
+    let changeFilter = useCallback(() => (todoId: string, value: FilterType) => {
+        let action = changeFilterAc(todoId, value)
         dispatch(action)
-    },[])
-
-
-
-
+    }, [])
     return (
         <div className="App">
             <Menu
@@ -88,7 +82,6 @@ function AppWithReducer() {
                                 filter={tl.filter}
                                 changeFilter={changeFilter}
                                 title={tl.title}/>
-
                         </Card>
                     })
                 }
@@ -96,4 +89,5 @@ function AppWithReducer() {
         </div>
     );
 }
+
 export default AppWithReducer;

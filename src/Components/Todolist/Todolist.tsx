@@ -6,8 +6,9 @@ import {Button, Checkbox, Space} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
-import {FilterType, TasksStateType, TasksType} from "../../AppWithReducer";
+import {FilterType, TasksType} from "../../AppWithReducer";
 import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
+import {changeFilterAc} from "../../state/TodoList-reducer";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -21,12 +22,27 @@ type PropsType = {
 const Todolist = React.memo((props: PropsType) => {
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootState, Array<TasksType>>(state => state.tasks[props.id]);
+
+    let filteredTask=tasks;
+
+    if (props.filter==='Active'){
+        filteredTask=tasks.filter(t=>t.isDone==false)
+    }
+    if (props.filter==='Completed'){
+        filteredTask=tasks.filter(t=>t.isDone===true)
+    }
+
     const localAddFunc = useCallback((title: string) => {
         dispatch(addTaskAc(title, props.id))
-    }, [])
+    }, [dispatch,addTaskAc, props.id])
     const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)
-    }, [])
+    }, [dispatch,props.changeTitleTodo, props.id])
+    const localChangeFilFunc=useCallback((id:string,value:FilterType)=>{
+       let act=changeFilterAc(id,value);
+       dispatch(act)
+    },[])
+
     return (
         <div className={style.card}>
             <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
@@ -36,7 +52,7 @@ const Todolist = React.memo((props: PropsType) => {
                 <InputElement add={localAddFunc}/>
             </div>
             <ul>
-                {tasks ? tasks.map((item) => {
+                {filteredTask ? filteredTask.map((item) => {
                     const onRemoveHandler = () => {
                         dispatch(removeTaskAc(props.id, item.id))
                     }
@@ -52,11 +68,13 @@ const Todolist = React.memo((props: PropsType) => {
                                       checked={item.isDone}
                                       onChange={changeCheck}>
                             </Checkbox>
-                            <EditableSpan title={item.title} onChange={changeTitleTask}/>
+                            <EditableSpan title={item.title}
+                                          onChange={changeTitleTask}/>
                         </div>
                         <div>
                             <EditOutlined/>
-                            <DeleteOutlined className={style.treshs_icon} onClick={onRemoveHandler}/>
+                            <DeleteOutlined className={style.treshs_icon}
+                                            onClick={onRemoveHandler}/>
                         </div>
                     </li>
                 }) : ''}
@@ -64,13 +82,12 @@ const Todolist = React.memo((props: PropsType) => {
             </ul>
             <div className={style.btns}>
                 <Space wrap>
-                    <Button onClick={() => props.changeFilter(props.id, 'All')}
+                    <Button onClick={() => localChangeFilFunc(props.id, 'All')}
                             type={props.filter === "All" ? "primary" : "default"}>All</Button>
-                    <Button onClick={() => props.changeFilter(props.id, 'Active')}
+                    <Button onClick={() => localChangeFilFunc(props.id, 'Active')}
                             type={props.filter === "Active" ? "primary" : "default"}>Active</Button>
-                    <Button onClick={() => props.changeFilter(props.id, 'Completed')}
+                    <Button onClick={() => localChangeFilFunc(props.id, 'Completed')}
                             type={props.filter === "Completed" ? "primary" : "default"}>Completed</Button>
-
                 </Space>
             </div>
         </div>

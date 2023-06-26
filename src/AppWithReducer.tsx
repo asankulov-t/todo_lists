@@ -4,7 +4,7 @@ import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
 import {Card, Menu, MenuProps} from 'antd';
-import {LoginOutlined, MailOutlined} from '@ant-design/icons';
+import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoAc,
     changeFilterAc,
@@ -42,29 +42,31 @@ function AppWithReducer() {
     ]
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
+    console.log(todoLists)
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
         dispatch(action)
-    }, [])
+    }, [dispatch])
     let removeTodo = useCallback((id: string) => {
         let action = removeTdAc(id)
         dispatch(action)
-    }, [])
+    }, [dispatch])
     let addTodo = useCallback((title: string) => {
         let action = addTodoAc(title);
         dispatch(action)
-    }, [])
-    let changeFilter = useCallback(() => (todoId: string, value: FilterType) => {
+    }, [dispatch])
+    let changeFilter = useCallback((todoId: string, value: FilterType) => {
         let action = changeFilterAc(todoId, value)
         dispatch(action)
-    }, [])
+    }, [dispatch])
     return (
         <div className="App">
             <Menu
                 className={'header'}
                 triggerSubMenuAction={'hover'}
                 selectable={false}
-                style={{fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px', alignItems: 'center'}}
+                style={{fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px',
+                        alignItems: 'center'}}
                 mode="horizontal"
                 theme={"dark"}
                 items={items}/>

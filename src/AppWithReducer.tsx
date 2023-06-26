@@ -40,7 +40,6 @@ function AppWithReducer() {
             icon: <LoginOutlined className={'icon'}/>,
         }
     ]
-    console.log('App is rendered')
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
     let changeTitleTodo = useCallback((todoId: string, title: string) => {

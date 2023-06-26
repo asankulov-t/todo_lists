@@ -18,17 +18,15 @@ type PropsType = {
     title: string,
 }
 
-const Todolist=React.memo((props: PropsType)=> {
-    console.log('Todolist is rendered')
+const Todolist = React.memo((props: PropsType) => {
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootState, Array<TasksType>>(state => state.tasks[props.id]);
-
     const localAddFunc = useCallback((title: string) => {
-        dispatch(addTaskAc(title,props.id))
-    },[])
+        dispatch(addTaskAc(title, props.id))
+    }, [])
     const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)
-    },[])
+    }, [])
     return (
         <div className={style.card}>
             <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
@@ -40,13 +38,13 @@ const Todolist=React.memo((props: PropsType)=> {
             <ul>
                 {tasks ? tasks.map((item) => {
                     const onRemoveHandler = () => {
-                        dispatch(removeTaskAc(props.id,item.id))
+                        dispatch(removeTaskAc(props.id, item.id))
                     }
                     const changeCheck = () => {
-                        dispatch(changeTaskAc(item.id,props.id))
+                        dispatch(changeTaskAc(item.id, props.id))
                     }
                     const changeTitleTask = (title: string) => {
-                        dispatch(changeTaskTitleAc(props.id,item.id,title))
+                        dispatch(changeTaskTitleAc(props.id, item.id, title))
                     }
                     return <li key={item.id} className={item.isDone ? style.is_done : ''}>
                         <div className={style.list}>

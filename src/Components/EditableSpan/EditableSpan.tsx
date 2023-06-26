@@ -21,12 +21,6 @@ const EditableSpan = React.memo((props: EditType) => {
         setEditMode(false)
         props.onChange(title)
     }
-
-    // const finishEditHendler=()=>{
-    //     props.onChange(title)
-    // }
-
-
     return (
         <div >
             {editMode ? <Input

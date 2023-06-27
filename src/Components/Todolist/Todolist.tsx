@@ -2,13 +2,14 @@ import React, {useCallback} from "react";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
-import {Button, Checkbox, Space} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {Button, Space} from "antd";
+import {DeleteOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 import {FilterType, TasksType} from "../../AppWithReducer";
-import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
+import {addTaskAc} from "../../state/Tasks-reducer";
 import {changeFilterAc} from "../../state/TodoList-reducer";
+import Task from "../Task/Task";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -41,7 +42,7 @@ const Todolist = React.memo((props: PropsType) => {
     const localChangeFilFunc=useCallback((id:string,value:FilterType)=>{
        let act=changeFilterAc(id,value);
        dispatch(act)
-    },[])
+    },[dispatch, changeFilterAc])
 
     return (
         <div className={style.card}>
@@ -52,32 +53,11 @@ const Todolist = React.memo((props: PropsType) => {
                 <InputElement add={localAddFunc}/>
             </div>
             <ul>
-                {filteredTask ? filteredTask.map((item) => {
-                    const onRemoveHandler = () => {
-                        dispatch(removeTaskAc(props.id, item.id))
-                    }
-                    const changeCheck = () => {
-                        dispatch(changeTaskAc(item.id, props.id))
-                    }
-                    const changeTitleTask = (title: string) => {
-                        dispatch(changeTaskTitleAc(props.id, item.id, title))
-                    }
-                    return <li key={item.id} className={item.isDone ? style.is_done : ''}>
-                        <div className={style.list}>
-                            <Checkbox className={style.check_icon}
-                                      checked={item.isDone}
-                                      onChange={changeCheck}>
-                            </Checkbox>
-                            <EditableSpan title={item.title}
-                                          onChange={changeTitleTask}/>
-                        </div>
-                        <div>
-                            <EditOutlined/>
-                            <DeleteOutlined className={style.treshs_icon}
-                                            onClick={onRemoveHandler}/>
-                        </div>
-                    </li>
-                }) : ''}
+                {filteredTask ? filteredTask.map((item) => <Task
+                    todoId={props.id}
+                    taskId={item.id}
+                    isDone={item.isDone}
+                    title={item.title}/>) : ''}
 
             </ul>
             <div className={style.btns}>

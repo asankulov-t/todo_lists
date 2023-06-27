@@ -3,7 +3,12 @@
 
     background-color: #ffffff;
 }
-
+.card li{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
 .card h3{
     display: flex;
     justify-content: space-between;
@@ -13,31 +18,14 @@
     font-weight: 700;
     font-size: 30px;
 }
-.list{
-    display: flex;
-    align-items: center;
-}
+
 .card ul{
     padding-left: 0;
     list-style: none;
     font-size: 25px;
 }
-.check_icon{
-    margin-right: 5px;
-    height: 15px;
-}
-.treshs_icon{
-    margin-right: 2px;
-}
-.is_done{
-    opacity: 0.7;
-}
-.card li{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-}
+
+
 .btns{
     border-radius: 5px;
     background-color: #ffffff;

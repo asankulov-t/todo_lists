@@ -42,7 +42,6 @@ function AppWithReducer() {
     ]
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
-    console.log(todoLists)
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
         dispatch(action)

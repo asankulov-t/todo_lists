@@ -1,0 +1,18 @@
+.is_done{
+    opacity: 0.7;
+}
+.list{
+    display: flex;
+    align-items: center;
+}
+.check_icon{
+    margin-right: 5px;
+    height: 15px;
+}
+.treshs_icon{
+    margin-right: 2px;
+}
+
+
+
+

@@ -22,8 +22,7 @@ export type CHANGE_FILTER={
 }
 export type actionTypes=REMOVE_TODO|ADD_TODO|CHANGE_TITLE|CHANGE_FILTER
 
-// export let todoID1 = v1();
-// export let todoID2 = v1();
+
 
 const initialState:Array<TodoListType>=[
 

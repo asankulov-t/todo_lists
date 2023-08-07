@@ -55,18 +55,17 @@ function AppWithReducer() {
         let action = addTodoAc(title);
         dispatch(action)
     }, [dispatch])
-    let changeFilter = useCallback((todoId: string, value: FilterType) => {
-        let action = changeFilterAc(todoId, value)
-        dispatch(action)
-    }, [dispatch])
+
     return (
         <div className="App">
             <Menu
                 className={'header'}
                 triggerSubMenuAction={'hover'}
                 selectable={false}
-                style={{fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px',
-                        alignItems: 'center'}}
+                style={{
+                    fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px',
+                    alignItems: 'center'
+                }}
                 mode="horizontal"
                 theme={"dark"}
                 items={items}/>
@@ -81,7 +80,6 @@ function AppWithReducer() {
                                 key={tl.id}
                                 id={tl.id}
                                 filter={tl.filter}
-                                changeFilter={changeFilter}
                                 title={tl.title}/>
                         </Card>
                     })

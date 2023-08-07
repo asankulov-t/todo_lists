@@ -15,7 +15,6 @@ type PropsType = {
     removeTodo: (id: string) => void,
     id: string,
     filter: FilterType
-    changeFilter: (todoId: string, value: FilterType) => void,
     title: string,
 }
 
@@ -23,25 +22,25 @@ const Todolist = React.memo((props: PropsType) => {
     const dispatch = useDispatch();
     const tasks = useSelector<AppRootState, Array<TasksType>>(state => state.tasks[props.id]);
 
-    let filteredTask=tasks;
+    let filteredTask = tasks;
 
-    if (props.filter==='Active'){
-        filteredTask=tasks.filter(t=>t.isDone==false)
+    if (props.filter === 'Active') {
+        filteredTask = tasks.filter(t => t.isDone == false)
     }
-    if (props.filter==='Completed'){
-        filteredTask=tasks.filter(t=>t.isDone===true)
+    if (props.filter === 'Completed') {
+        filteredTask = tasks.filter(t => t.isDone === true)
     }
 
     const localAddFunc = useCallback((title: string) => {
         dispatch(addTaskAc(title, props.id))
-    }, [dispatch,addTaskAc, props.id])
+    }, [dispatch, addTaskAc, props.id])
     const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)
-    }, [dispatch,props.changeTitleTodo, props.id])
-    const localChangeFilFunc=useCallback((id:string,value:FilterType)=>{
-       let act=changeFilterAc(id,value);
-       dispatch(act)
-    },[])
+    }, [dispatch, props.changeTitleTodo, props.id])
+    const localChangeFilFunc = useCallback((id: string, value: FilterType) => {
+        let act = changeFilterAc(id, value);
+        dispatch(act)
+    }, [props.id, props.filter, dispatch])
 
     return (
         <div className={style.card}>

@@ -9,6 +9,7 @@ import {AppRootState} from "../../state/store";
 import {FilterType, TasksType} from "../../AppWithReducer";
 import {addTaskAc, changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
 import {changeFilterAc} from "../../state/TodoList-reducer";
+import Task from "../Tasks/Task";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -52,30 +53,7 @@ const Todolist = React.memo((props: PropsType) => {
             </div>
             <ul>
                 {filteredTask ? filteredTask.map((item) => {
-                    const onRemoveHandler = () => {
-                        dispatch(removeTaskAc(props.id, item.id))
-                    }
-                    const changeCheck = () => {
-                        dispatch(changeTaskAc(item.id, props.id))
-                    }
-                    const changeTitleTask = (title: string) => {
-                        dispatch(changeTaskTitleAc(props.id, item.id, title))
-                    }
-                    return <li key={item.id} className={item.isDone ? style.is_done : ''}>
-                        <div className={style.list}>
-                            <Checkbox className={style.check_icon}
-                                      checked={item.isDone}
-                                      onChange={changeCheck}>
-                            </Checkbox>
-                            <EditableSpan title={item.title}
-                                          onChange={changeTitleTask}/>
-                        </div>
-                        <div>
-                            <EditOutlined/>
-                            <DeleteOutlined className={style.treshs_icon}
-                                            onClick={onRemoveHandler}/>
-                        </div>
-                    </li>
+                    return <Task title={item.title} taskId={item.id} tdId={props.id} isDone={item.isDone}/>
                 }) : ''}
 
             </ul>

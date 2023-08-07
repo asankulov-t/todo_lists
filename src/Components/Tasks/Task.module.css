@@ -1,0 +1,18 @@
+.list{
+    display: flex;
+    align-items: baseline;
+    justify-content: start;
+    margin-bottom: 10px;
+}
+.titleAndTresh{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.treshs_icon{
+    margin-right: 20px;
+}
+.is_done{
+    opacity: 0.7;
+}

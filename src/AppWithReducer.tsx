@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
@@ -14,6 +14,7 @@ import {
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
+import { authFunc} from "./Api/Api";
 
 //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
 export type TasksType = {
@@ -33,6 +34,12 @@ export type TasksStateType = {
 export type FilterType = "All" | "Active" | "Completed"
 
 function AppWithReducer() {
+    let [res,setRes]=useState<any>()
+
+    useEffect(()=>{
+        authFunc().then(r=>setRes(r))
+    },[])
+    console.log(res)
     const items: MenuProps['items'] = [
         {
             label: 'LOGIN',

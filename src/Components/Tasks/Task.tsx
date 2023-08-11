@@ -14,7 +14,7 @@ export type taskType = {
 }
 
 
-const Task = (props:taskType) => {
+const Task = React.memo((props:taskType) => {
     const dispatch = useDispatch();
 
     const onRemoveHandler = () => {
@@ -46,7 +46,7 @@ const Task = (props:taskType) => {
         </div>
 
     </li>
-};
+})
 
 export default Task;
 

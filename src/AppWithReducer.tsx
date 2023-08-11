@@ -7,16 +7,14 @@ import {Card, Menu, MenuProps} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoAc,
-    changeFilterAc,
     changeTitleAc,
     removeTdAc,
 } from "./state/TodoList-reducer";
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import { authFunc} from "./Api/Api";
+import {TODOLISTAPI} from "./Api/Api";
 
-//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
 export type TasksType = {
     id: string,
     title: string,
@@ -37,7 +35,9 @@ function AppWithReducer() {
     let [res,setRes]=useState<any>()
 
     useEffect(()=>{
-        authFunc().then(r=>setRes(r))
+        TODOLISTAPI.getTodoLists().then(r=>{
+            setRes(r.data)
+        })
     },[])
     console.log(res)
     const items: MenuProps['items'] = [

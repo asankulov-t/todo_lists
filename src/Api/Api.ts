@@ -1,5 +1,4 @@
 import axios from "axios";
-import exp from "constants";
 
 export type TodoListType = {
     id: string,
@@ -69,6 +68,8 @@ export const TODOLISTAPI = {
     deleteTodo(id: string) {
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${id}`)
     },
+
+
     //tasks
     getTasks(todoId: string) {
         return  instance.get<getTasksType>(`todo-lists/${todoId}/tasks`)

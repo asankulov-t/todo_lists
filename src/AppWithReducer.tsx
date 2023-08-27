@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
@@ -32,7 +32,6 @@ export type FilterType = "All" | "Active" | "Completed"
 
 function AppWithReducer() {
     let [res, setRes] = useState<any>()
-
     useEffect(() => {
         TODOLISTAPI.getTodoLists().then(r => {
             setRes(r.data)

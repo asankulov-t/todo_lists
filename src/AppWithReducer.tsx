@@ -33,7 +33,8 @@ export type FilterType = "All" | "Active" | "Completed"
 function AppWithReducer() {
     let [res, setRes] = useState<any>()
     useEffect(() => {
-        TODOLISTAPI.getTodoLists().then(r => {
+        TODOLISTAPI.getTodoLists()
+            .then(r => {
             setRes(r.data)
         })
     }, [])

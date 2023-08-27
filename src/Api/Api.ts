@@ -81,7 +81,7 @@ export const TODOLISTAPI = {
         return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,{title:title})
     },
     createTask(todoId:string,title:string){
-        return instance.post<CreateTodolistResponseType>(`todo-lists/${todoId}/`,{title:title})
+        return instance.post<CreateTodolistResponseType>(`todo-lists/${todoId}/tasks`,{title:title})
     },
 }
 

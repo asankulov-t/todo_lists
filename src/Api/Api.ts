@@ -40,7 +40,15 @@ export type getTasksType = {
     error: null | string
 }
 
-
+export type updateTaksType={
+    title: string,
+    description: string,
+    completed: boolean
+    status:number,
+    priority: number,
+    startDate: string,
+    deadline: string,
+}
 
 const settings = {
     withCredentials: true,
@@ -77,8 +85,8 @@ export const TODOLISTAPI = {
     deleteTask(todoId:string,taskId:string){
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`)
     },
-    changeTask(todoId:string,taskId:string,title:string){
-        return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,{title:title})
+    changeTask(todoId:string,taskId:string,title:string, model:updateTaksType){
+        return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,model)
     },
     createTask(todoId:string,title:string){
         return instance.post<CreateTodolistResponseType>(`todo-lists/${todoId}/tasks`,{title:title})

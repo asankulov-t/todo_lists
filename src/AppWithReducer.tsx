@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
-import {v1} from 'uuid';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
@@ -32,13 +31,13 @@ export type TasksStateType = {
 export type FilterType = "All" | "Active" | "Completed"
 
 function AppWithReducer() {
-    let [res,setRes]=useState<any>()
+    let [res, setRes] = useState<any>()
 
-    useEffect(()=>{
-        TODOLISTAPI.getTodoLists().then(r=>{
+    useEffect(() => {
+        TODOLISTAPI.getTodoLists().then(r => {
             setRes(r.data)
         })
-    },[])
+    }, [])
     console.log(res)
     const items: MenuProps['items'] = [
         {
@@ -49,7 +48,6 @@ function AppWithReducer() {
     ]
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
-    console.log(todoLists)
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
         dispatch(action)

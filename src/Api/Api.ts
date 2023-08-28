@@ -1,4 +1,5 @@
 import axios from "axios";
+import {taskType} from "../state/Tasks-reducer";
 
 export type TodoListType = {
     id: string,
@@ -20,26 +21,14 @@ export type DeleteUpdateTodolistResponseType = {
     data: {}
 }
 
-export type taskType = {
-    description: string
-    title: string
-    completed: string
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
+
 
 export type getTasksType = {
     items: Array<taskType>,
     totalCount: number,
     error: null | string
 }
-
+// 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
 export type updateTaksType={
     title: string,
     description: string,

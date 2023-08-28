@@ -7,28 +7,18 @@ import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoAc,
     changeTitleAc,
-    removeTdAc,
+    removeTdAc, TodoListEntityType,
 } from "./state/TodoList-reducer";
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {TODOLISTAPI} from "./Api/Api";
+import { TODOLISTAPI} from "./Api/Api";
+import {taskType} from "./state/Tasks-reducer";
 
-export type TasksType = {
-    id: string,
-    title: string,
-    isDone: boolean
-}
-export type TodoListType = {
-    id: string,
-    title: string,
-    filter: FilterType
-}
 export type TasksStateType = {
-    [key: string]: Array<TasksType>
+    [key: string]: Array<taskType>
 }
 
-export type FilterType = "All" | "Active" | "Completed"
 
 function AppWithReducer() {
     let [res, setRes] = useState<any>()
@@ -47,7 +37,7 @@ function AppWithReducer() {
         }
     ]
     const dispatch = useDispatch();
-    const todoLists = useSelector<AppRootState, Array<TodoListType>>(state => state.todoLists);
+    const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
         dispatch(action)
@@ -84,7 +74,7 @@ function AppWithReducer() {
                                 removeTodo={removeTodo}
                                 key={tl.id}
                                 id={tl.id}
-                                filter={tl.filter}
+                                // filter={tl.filter}
                                 title={tl.title}/>
                         </Card>
                     })

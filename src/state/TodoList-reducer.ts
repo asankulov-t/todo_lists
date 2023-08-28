@@ -1,4 +1,3 @@
-import {FilterType, TodoListType} from "../AppWithReducer";
 import {v1} from "uuid";
 
 export type REMOVE_TODO={
@@ -15,25 +14,30 @@ export type CHANGE_TITLE={
     id:string,
     title:string
 }
-export type CHANGE_FILTER={
-    type:'CHANGE-FILTER',
-    id:string,
-    filter:FilterType
+// export type CHANGE_FILTER={
+//     type:'CHANGE-FILTER',
+//     id:string,
+//     filter:FilterType
+// }
+export type actionTypes=REMOVE_TODO|ADD_TODO|CHANGE_TITLE
+
+
+export type TodoListEntityType={
+    id: string,
+    title: string,
+    addedDate?:string|null,
+    order?: number|null,
 }
-export type actionTypes=REMOVE_TODO|ADD_TODO|CHANGE_TITLE|CHANGE_FILTER
-
-
-
-const initialState:Array<TodoListType>=[
+const initialState:Array<TodoListEntityType>=[
 
 ]
-export const todoListReducer=(state:Array<TodoListType>=initialState,action:actionTypes):Array<TodoListType>=>{
+export const todoListReducer=(state:Array<TodoListEntityType>=initialState,action:actionTypes):Array<TodoListEntityType>=>{
     switch (action.type) {
         case "REMOVE-TODO":{
             return state.filter((t)=>t.id!=action.id)
         }
         case "ADD-TODO":{
-            return [{id:action.todoID,title:action.title, filter:'All'},...state]
+            return [{id:action.todoID,title:action.title},...state]
         }
         case "CHANGE-TITLE":{
             return state.map((t)=>{
@@ -43,14 +47,14 @@ export const todoListReducer=(state:Array<TodoListType>=initialState,action:acti
                 } return  t
             })
         }
-        case "CHANGE-FILTER":{
-            return state.map((t)=>{
-                if (t.id==action.id){
-                    t.filter=action.filter;
-                    return t
-                } return  t
-            })
-        }
+        // case "CHANGE-FILTER":{
+        //     return state.map((t)=>{
+        //         if (t.id==action.id){
+        //             t.filter=action.filter;
+        //             return t
+        //         } return  t
+        //     })
+        // }
         default: return state
     }
 }
@@ -75,10 +79,10 @@ export const changeTitleAc=(id:string,title:string):CHANGE_TITLE=>{
         title
     }
 }
-export const changeFilterAc=(id:string,filter:FilterType):CHANGE_FILTER=>{
-    return {
-        type:"CHANGE-FILTER",
-        id,
-        filter
-    }
-}
+// export const changeFilterAc=(id:string,filter:FilterType):CHANGE_FILTER=>{
+//     return {
+//         type:"CHANGE-FILTER",
+//         id,
+//         filter
+//     }
+// }

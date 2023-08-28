@@ -24,8 +24,27 @@ export type CHANGESTATUS = {
     id: string,
     todoId: string,
 }
-export type actions = CHANGETASKTITLE | REMOVETASK | ADDTASK | CHANGESTATUS | ADD_TODO|REMOVE_TODO
 
+export type FILTERTASKS = {
+    type: "FILTER-TASKS",
+    filter:'Completed'|'Active'|'All',
+    todoId:string,
+    taskID:string
+}
+export type actions = CHANGETASKTITLE | REMOVETASK | ADDTASK | CHANGESTATUS | ADD_TODO|REMOVE_TODO|FILTERTASKS
+export type taskType = {
+    description?: string
+    title: string
+    completed: boolean
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
+    id: string
+    todoListId ?: string
+    order?: number
+    addedDate?: string
+}
 const initialState:TasksStateType={
     //
     // [todoID1]: [
@@ -40,6 +59,7 @@ const initialState:TasksStateType={
 }
 
 export const tasksReducer = (state: TasksStateType=initialState, action: actions): TasksStateType => {
+    // @ts-ignore
     switch (action.type) {
         case "CHANGE-TASK-TITLE":
             let changed = state[action.todoId].map((t) => {
@@ -56,13 +76,13 @@ export const tasksReducer = (state: TasksStateType=initialState, action: actions
             state[action.todoId] = taskObj
             return {...state}
         case "ADD-TASK":
-            let newT = {id: v1(), title: action.title, isDone: false};
+            let newT = {id: v1(), title: action.title, completed: false};
             // let tasks = state[action.id];
             // let allTasks = [{...newT}, ...tasks]
             // state[action.id] = allTasks
             return {...state,[action.id]:[newT,...state[action.id]]}
         case "CHANGE-STATUS":
-            return {...state,[action.todoId]:state[action.todoId].map((tl)=>tl.id===action.id?{...tl,isDone:!tl.isDone}:tl)}
+            return {...state,[action.todoId]:state[action.todoId].map((tl)=>tl.id===action.id?{...tl,completed:!tl.completed}:tl)}
         case "ADD-TODO": {
             const copy = {...state}
             copy[action.todoID] = []
@@ -109,3 +129,4 @@ export const changeTaskAc = (id: string, todoId: string): CHANGESTATUS => {
         todoId,
     }
 }
+

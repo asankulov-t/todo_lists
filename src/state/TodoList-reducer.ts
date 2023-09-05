@@ -1,5 +1,9 @@
 import {v1} from "uuid";
 
+export type SET_TODOLISTS={
+    type:'SET_TODOLISTS',
+    todoLists:Array<TodoListEntityType>
+}
 export type REMOVE_TODO={
     type:'REMOVE-TODO',
     id:string
@@ -19,7 +23,7 @@ export type CHANGE_TITLE={
 //     id:string,
 //     filter:FilterType
 // }
-export type actionTypes=REMOVE_TODO|ADD_TODO|CHANGE_TITLE
+export type actionTypes=REMOVE_TODO|ADD_TODO|CHANGE_TITLE|SET_TODOLISTS
 
 
 export type TodoListEntityType={
@@ -33,6 +37,8 @@ const initialState:Array<TodoListEntityType>=[
 ]
 export const todoListReducer=(state:Array<TodoListEntityType>=initialState,action:actionTypes):Array<TodoListEntityType>=>{
     switch (action.type) {
+        case "SET_TODOLISTS":
+            return action.todoLists
         case "REMOVE-TODO":{
             return state.filter((t)=>t.id!=action.id)
         }
@@ -47,14 +53,6 @@ export const todoListReducer=(state:Array<TodoListEntityType>=initialState,actio
                 } return  t
             })
         }
-        // case "CHANGE-FILTER":{
-        //     return state.map((t)=>{
-        //         if (t.id==action.id){
-        //             t.filter=action.filter;
-        //             return t
-        //         } return  t
-        //     })
-        // }
         default: return state
     }
 }
@@ -79,10 +77,7 @@ export const changeTitleAc=(id:string,title:string):CHANGE_TITLE=>{
         title
     }
 }
-// export const changeFilterAc=(id:string,filter:FilterType):CHANGE_FILTER=>{
-//     return {
-//         type:"CHANGE-FILTER",
-//         id,
-//         filter
-//     }
-// }
+
+export const setTodosAc=(todolists:Array<TodoListEntityType>):SET_TODOLISTS=>{
+    return{type:'SET_TODOLISTS', todoLists:todolists}
+}

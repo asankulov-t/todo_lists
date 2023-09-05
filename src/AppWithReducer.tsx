@@ -7,7 +7,7 @@ import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoAc,
     changeTitleAc,
-    removeTdAc, TodoListEntityType,
+    removeTdAc, setTodosAc, TodoListEntityType,
 } from "./state/TodoList-reducer";
 
 import {useDispatch, useSelector} from "react-redux";
@@ -21,14 +21,13 @@ export type TasksStateType = {
 
 
 function AppWithReducer() {
-    let [res, setRes] = useState<any>()
+    const dispatch = useDispatch();
     useEffect(() => {
         TODOLISTAPI.getTodoLists()
             .then(r => {
-            setRes(r.data)
+            dispatch(setTodosAc(r.data))
         })
     }, [])
-    console.log(res)
     const items: MenuProps['items'] = [
         {
             label: 'LOGIN',
@@ -36,7 +35,6 @@ function AppWithReducer() {
             icon: <LoginOutlined className={'icon'}/>,
         }
     ]
-    const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
@@ -50,7 +48,7 @@ function AppWithReducer() {
         let action = addTodoAc(title);
         dispatch(action)
     }, [dispatch])
-
+    console.log(todoLists)
     return (
         <div className="App">
             <Menu
@@ -74,7 +72,6 @@ function AppWithReducer() {
                                 removeTodo={removeTodo}
                                 key={tl.id}
                                 id={tl.id}
-                                // filter={tl.filter}
                                 title={tl.title}/>
                         </Card>
                     })

@@ -59,7 +59,6 @@ const initialState:TasksStateType={
 }
 
 export const tasksReducer = (state: TasksStateType=initialState, action: actions): TasksStateType => {
-    // @ts-ignore
     switch (action.type) {
         case "CHANGE-TASK-TITLE":
             let changed = state[action.todoId].map((t) => {
@@ -77,9 +76,6 @@ export const tasksReducer = (state: TasksStateType=initialState, action: actions
             return {...state}
         case "ADD-TASK":
             let newT = {id: v1(), title: action.title, completed: false};
-            // let tasks = state[action.id];
-            // let allTasks = [{...newT}, ...tasks]
-            // state[action.id] = allTasks
             return {...state,[action.id]:[newT,...state[action.id]]}
         case "CHANGE-STATUS":
             return {...state,[action.todoId]:state[action.todoId].map((tl)=>tl.id===action.id?{...tl,completed:!tl.completed}:tl)}

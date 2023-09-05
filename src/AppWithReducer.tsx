@@ -7,12 +7,12 @@ import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoAc,
     changeTitleAc,
-    removeTdAc, setTodosAc, TodoListEntityType,
+    fetchDataTodoTh,
+    removeTdAc, TodoListEntityType,
 } from "./state/TodoList-reducer";
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import { TODOLISTAPI} from "./Api/Api";
 import {taskType} from "./state/Tasks-reducer";
 
 export type TasksStateType = {
@@ -23,10 +23,8 @@ export type TasksStateType = {
 function AppWithReducer() {
     const dispatch = useDispatch();
     useEffect(() => {
-        TODOLISTAPI.getTodoLists()
-            .then(r => {
-            dispatch(setTodosAc(r.data))
-        })
+       // @ts-ignore
+        dispatch(fetchDataTodoTh())
     }, [])
     const items: MenuProps['items'] = [
         {
@@ -48,7 +46,6 @@ function AppWithReducer() {
         let action = addTodoAc(title);
         dispatch(action)
     }, [dispatch])
-    console.log(todoLists)
     return (
         <div className="App">
             <Menu

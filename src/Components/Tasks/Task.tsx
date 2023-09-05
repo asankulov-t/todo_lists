@@ -16,7 +16,10 @@ export type taskType = {
 
 const Task = React.memo((props:taskType) => {
     const dispatch = useDispatch();
-
+    // useEffect(()=>{
+    //     TODOLISTAPI.createTask(props.tdId,'Fuck you')
+    // },[])
+    // console.log(props.tdId)
     const onRemoveHandler = () => {
         dispatch(removeTaskAc(props.tdId, props.taskId))
     }

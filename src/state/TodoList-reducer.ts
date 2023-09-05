@@ -1,5 +1,8 @@
 import {v1} from "uuid";
 
+import {TODOLISTAPI} from "../Api/Api";
+import {Dispatch} from "redux";
+
 export type SET_TODOLISTS={
     type:'SET_TODOLISTS',
     todoLists:Array<TodoListEntityType>
@@ -80,4 +83,15 @@ export const changeTitleAc=(id:string,title:string):CHANGE_TITLE=>{
 
 export const setTodosAc=(todolists:Array<TodoListEntityType>):SET_TODOLISTS=>{
     return{type:'SET_TODOLISTS', todoLists:todolists}
+}
+
+
+export const fetchDataTodoTh=()=>{
+    return (dispatch: Dispatch)=>{
+        TODOLISTAPI.getTodoLists()
+            .then(r=>{
+            dispatch(setTodosAc(r.data))
+        })
+    }
+
 }

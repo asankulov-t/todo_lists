@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
@@ -10,12 +10,13 @@ import {AppRootState} from "../../state/store";
 import {
     addTaskAc,
     changeTaskAc,
-    changeTaskTitleAc,
-    removeTaskAc,
+    changeTaskTitleAc, fetchDataTaskTh,
+    removeTaskAc, setTasksAc,
     taskType
 } from "../../state/Tasks-reducer";
 
 import Task from "../Tasks/Task";
+import {TODOLISTAPI} from "../../Api/Api";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -27,8 +28,12 @@ export type FilterType = "All" | "Active" | "Completed"
 
 const Todolist = React.memo((props: PropsType) => {
     const dispatch = useDispatch();
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchDataTaskTh(props.id))
+    }, [])
     const tasks = useSelector<AppRootState, Array<taskType>>(state => state.tasks[props.id]);
-    let [filter,SetFilter]=useState<FilterType>("All")
+    let [filter, SetFilter] = useState<FilterType>("All")
     let filteredTask = tasks;
 
     if (filter === 'Active') {
@@ -37,7 +42,6 @@ const Todolist = React.memo((props: PropsType) => {
     if (filter === 'Completed') {
         filteredTask = tasks.filter(t => t.completed === true)
     }
-
     const localAddFunc = useCallback((title: string) => {
         dispatch(addTaskAc(title, props.id))
     }, [dispatch, addTaskAc, props.id])
@@ -65,9 +69,9 @@ const Todolist = React.memo((props: PropsType) => {
             </ul>
             <div className={style.btns}>
                 <Space wrap>
-                    <Button onClick={() => SetFilter( 'All')}
+                    <Button onClick={() => SetFilter('All')}
                             type={filter === "All" ? "primary" : "default"}>All</Button>
-                    <Button onClick={() => SetFilter( 'Active')}
+                    <Button onClick={() => SetFilter('Active')}
                             type={filter === "Active" ? "primary" : "default"}>Active</Button>
                     <Button onClick={() => SetFilter('Completed')}
                             type={filter === "Completed" ? "primary" : "default"}>Completed</Button>

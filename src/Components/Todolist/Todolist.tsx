@@ -37,21 +37,20 @@ const Todolist = React.memo((props: PropsType) => {
     let filteredTask = tasks;
 
     if (filter === 'Active') {
-        filteredTask = tasks.filter(t => t.completed == false)
+        filteredTask = tasks.filter(t => t.status! == 2)
     }
     if (filter === 'Completed') {
-        filteredTask = tasks.filter(t => t.completed === true)
+        filteredTask = tasks.filter(t => t.status === 2)
     }
+
+
     const localAddFunc = useCallback((title: string) => {
         dispatch(addTaskAc(title, props.id))
     }, [dispatch, addTaskAc, props.id])
     const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)
     }, [dispatch, props.changeTitleTodo, props.id])
-    // const localChangeFilFunc = useCallback((filter: FilterType,todoId:string,taskID:string) => {
-    //     let act = filterTasksAC(filter,todoId,taskID);
-    //     dispatch(act)
-    // }, [props.id, filter, dispatch])
+
 
     return (
         <div className={style.card}>
@@ -63,7 +62,7 @@ const Todolist = React.memo((props: PropsType) => {
             </div>
             <ul>
                 {filteredTask ? filteredTask.map((item) => {
-                    return <Task title={item.title} taskId={item.id} tdId={props.id} isDone={item.completed}/>
+                    return <Task title={item.title} taskId={item.id} tdId={props.id} isDone={item.status}/>
                 }) : ''}
 
             </ul>

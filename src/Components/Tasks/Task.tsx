@@ -5,23 +5,22 @@ import {DeleteOutlined, EditOutlined} from "@ant-design/icons/lib";
 import {changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
 import {useDispatch} from "react-redux";
 import style from './Task.module.css'
+import {TaskStatuses, TODOLISTAPI} from "../../Api/Api";
 export type taskType = {
     title:string
     taskId:string,
     tdId: string,
-    isDone: boolean,
+    isDone: TaskStatuses,
 
 }
 
 
 const Task = React.memo((props:taskType) => {
     const dispatch = useDispatch();
-    // useEffect(()=>{
-    //     TODOLISTAPI.createTask(props.tdId,'Fuck you')
-    // },[])
-    // console.log(props.tdId)
     const onRemoveHandler = () => {
-        dispatch(removeTaskAc(props.tdId, props.taskId))
+        TODOLISTAPI.deleteTask(props.tdId,props.taskId).then(r=>{
+            dispatch(removeTaskAc(props.tdId, props.taskId))
+        })
     }
     const changeCheck = () => {
         dispatch(changeTaskAc(props.taskId, props.tdId))
@@ -32,7 +31,7 @@ const Task = React.memo((props:taskType) => {
     return <li key={props.taskId} className={props.isDone ? style.is_done : ''}>
         <div className={style.list}>
             <Checkbox className={style.check_icon}
-                      checked={props.isDone}
+                      checked={props.isDone==2?true:false}
                       onChange={changeCheck}>
             </Checkbox>
             <div className={style.titleAndTresh}>

@@ -28,12 +28,19 @@ export type getTasksType = {
     totalCount: number,
     error: null | string
 }
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
 // 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
 export type updateTaksType={
     title: string,
     description: string,
-    completed: boolean
-    status:number,
+    completed: TaskStatuses
+    status:TaskStatuses,
     priority: number,
     startDate: string,
     deadline: string,

@@ -46,6 +46,8 @@ function AppWithReducer() {
         let action = addTodoAc(title);
         dispatch(action)
     }, [dispatch])
+
+    console.log(todoLists)
     return (
         <div className="App">
             <Menu
@@ -53,7 +55,10 @@ function AppWithReducer() {
                 triggerSubMenuAction={'hover'}
                 selectable={false}
                 style={{
-                    fontSize: '35px', fontWeight: '700', color: '#ffffff', height: '70px',
+                    fontSize: '35px',
+                    fontWeight: '700',
+                    color: '#ffffff',
+                    height: '70px',
                     alignItems: 'center'
                 }}
                 mode="horizontal"

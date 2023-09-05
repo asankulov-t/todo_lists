@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {ADD_TODO, REMOVE_TODO, SET_TODOLISTS, setTodosAc} from "./TodoList-reducer";
 import {TasksStateType} from "../AppWithReducer";
 import {Dispatch} from "redux";
-import {TODOLISTAPI} from "../Api/Api";
+import {TaskStatuses, TODOLISTAPI} from "../Api/Api";
 
 export type CHANGETASKTITLE = {
     type: "CHANGE-TASK-TITLE",
@@ -50,8 +50,8 @@ export type actions =
 export type taskType = {
     description?: string
     title: string
-    completed: boolean
-    status?: number
+    completed?: boolean
+    status: TaskStatuses
     priority?: number
     startDate?: string
     deadline?: string
@@ -67,6 +67,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
         case "SET_TASKS": {
             const copy = {...state}
             copy[action.todoListID] = action.tasks
+            console.log(copy)
             return copy
         }
         case "SET_TODOLISTS": {
@@ -91,14 +92,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
             state[action.todoId] = taskObj
             return {...state}
         case "ADD-TASK":
-            let newT = {id: v1(), title: action.title, completed: false};
+            let newT = {id: v1(), title: action.title, status: 2};
             return {...state, [action.id]: [newT, ...state[action.id]]}
         case "CHANGE-STATUS":
             return {
                 ...state,
                 [action.todoId]: state[action.todoId].map((tl) => tl.id === action.id ? {
                     ...tl,
-                    completed: !tl.completed
+                    status: tl.status==2?0:2
                 } : tl)
             }
         case "ADD-TODO": {
@@ -160,5 +161,8 @@ export const fetchDataTaskTh = (todoId: string) => {
                 dispatch(setTasksAc(r.data.items, todoId))
             })
     }
+}
 
+export const deleteTaslTh=()=>{
+    return
 }

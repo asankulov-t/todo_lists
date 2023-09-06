@@ -14,7 +14,13 @@ export type CreateTodolistResponseType = {
         item: TodoListType
     }
 }
-
+export type CreateTakstResponseType = {
+    resultCode: number,
+    messages: Array<string>,
+    data: {
+        item: taskType
+    }
+}
 export type DeleteUpdateTodolistResponseType = {
     resultCode: number,
     messages: Array<string>,
@@ -85,7 +91,7 @@ export const TODOLISTAPI = {
         return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,model)
     },
     createTask(todoId:string,title:string){
-        return instance.post<CreateTodolistResponseType>(`todo-lists/${todoId}/tasks`,{title:title})
+        return instance.post<CreateTakstResponseType>(`todo-lists/${todoId}/tasks`,{title:title})
     },
 }
 

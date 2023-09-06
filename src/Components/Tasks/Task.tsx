@@ -2,7 +2,7 @@ import React from 'react';
 import {Checkbox} from "antd";
 import EditableSpan from "../EditableSpan/EditableSpan";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons/lib";
-import {changeTaskAc, changeTaskTitleAc, removeTaskAc} from "../../state/Tasks-reducer";
+import {changeTaskAc, changeTaskTitleAc, deleteTaskTh, removeTaskAc} from "../../state/Tasks-reducer";
 import {useDispatch} from "react-redux";
 import style from './Task.module.css'
 import {TaskStatuses, TODOLISTAPI} from "../../Api/Api";
@@ -18,10 +18,10 @@ export type taskType = {
 const Task = React.memo((props:taskType) => {
     const dispatch = useDispatch();
     const onRemoveHandler = () => {
-        TODOLISTAPI.deleteTask(props.tdId,props.taskId).then(r=>{
-            dispatch(removeTaskAc(props.tdId, props.taskId))
-        })
-    }
+        // @ts-ignore
+        dispatch(deleteTaskTh(props.tdId,props.taskId))
+        }
+
     const changeCheck = () => {
         dispatch(changeTaskAc(props.taskId, props.tdId))
     }

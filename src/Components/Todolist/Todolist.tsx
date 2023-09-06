@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 
 import {
-    addTaskAc,
+    addTaskAc, addTaskTh,
     changeTaskAc,
     changeTaskTitleAc, fetchDataTaskTh,
     removeTaskAc, setTasksAc,
@@ -45,7 +45,8 @@ const Todolist = React.memo((props: PropsType) => {
 
 
     const localAddFunc = useCallback((title: string) => {
-        dispatch(addTaskAc(title, props.id))
+        // @ts-ignore
+        dispatch(addTaskTh(props.id,title))
     }, [dispatch, addTaskAc, props.id])
     const changeTodoTitleHendler = useCallback((title: string) => {
         props.changeTitleTodo(props.id, title)

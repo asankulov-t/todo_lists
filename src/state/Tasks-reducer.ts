@@ -18,8 +18,7 @@ export type REMOVETASK = {
 
 export type ADDTASK = {
     type: "ADD-TASK",
-    title: string,
-    id: string
+    task:taskType
 }
 export type CHANGESTATUS = {
     type: "CHANGE-STATUS",
@@ -56,7 +55,7 @@ export type taskType = {
     startDate?: string
     deadline?: string
     id: string
-    todoListId?: string
+    todoListId: string
     order?: number
     addedDate?: string
 }
@@ -92,8 +91,12 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
             state[action.todoId] = taskObj
             return {...state}
         case "ADD-TASK":
-            let newT = {id: v1(), title: action.title, status: 2};
-            return {...state, [action.id]: [newT, ...state[action.id]]}
+            const statyCopy={...state}
+            const newTask=action.task
+            const tasks=statyCopy[newTask.todoListId]
+            const newTasks=[newTask,...tasks]
+            statyCopy[newTask.todoListId]=newTasks
+            return  statyCopy
         case "CHANGE-STATUS":
             return {
                 ...state,
@@ -134,11 +137,10 @@ export const removeTaskAc = (todoId: string, id: string): REMOVETASK => {
     }
 }
 
-export const addTaskAc = (title: string, id: string): ADDTASK => {
+export const addTaskAc = (task:taskType): ADDTASK => {
     return {
         type: "ADD-TASK",
-        title,
-        id
+        task
     }
 }
 
@@ -163,6 +165,20 @@ export const fetchDataTaskTh = (todoId: string) => {
     }
 }
 
-export const deleteTaslTh=()=>{
-    return
+export const deleteTaskTh=(todoId:string, taskId:string)=>{
+    return (dispatch: Dispatch) => {
+        TODOLISTAPI.deleteTask(todoId,taskId)
+            .then(r => {
+                dispatch(removeTaskAc(todoId,taskId))
+            })
+    }
+}
+
+export const addTaskTh=(todoId:string, title:string)=>{
+    return (dispatch: Dispatch) => {
+        TODOLISTAPI.createTask(todoId,title)
+            .then(r => {
+                dispatch(addTaskAc(r.data.data.item))
+            })
+    }
 }

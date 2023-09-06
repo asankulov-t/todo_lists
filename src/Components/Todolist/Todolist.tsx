@@ -17,6 +17,7 @@ import {
 
 import Task from "../Tasks/Task";
 import {TODOLISTAPI} from "../../Api/Api";
+import {deleteTodoTh} from "../../state/TodoList-reducer";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -52,11 +53,15 @@ const Todolist = React.memo((props: PropsType) => {
         props.changeTitleTodo(props.id, title)
     }, [dispatch, props.changeTitleTodo, props.id])
 
+    const deleteTodo=()=>{
+        // @ts-ignore
+        dispatch(deleteTodoTh(props.id))
+    }
 
     return (
         <div className={style.card}>
             <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
-                <DeleteOutlined onClick={() => props.removeTodo(props.id)}></DeleteOutlined>
+                <DeleteOutlined onClick={deleteTodo}></DeleteOutlined>
             </h3>
             <div>
                 <InputElement add={localAddFunc}/>

@@ -40,7 +40,7 @@ const Task = React.memo((props:taskType) => {
                                   onChange={changeTitleTask}/>
                 </div>
                 <div >
-                    <EditOutlined/>
+                    {/*<EditOutlined onChange={changeTitleTask}/>*/}
                     <DeleteOutlined className={style.treshs_icon}
                                     onClick={onRemoveHandler}/>
                 </div>

@@ -91,11 +91,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
             state[action.todoId] = taskObj
             return {...state}
         case "ADD-TASK":
-            const statyCopy={...state}
-            const newTask=action.task
-            const tasks=statyCopy[newTask.todoListId]
-            const newTasks=[newTask,...tasks]
-            statyCopy[newTask.todoListId]=newTasks
+            const statyCopy={...state}//copy all tasks
+            const newTask=action.task //create new variable equels new task created from beckend
+            const tasks=statyCopy[newTask.todoListId]//choce todo where we getting old tasks
+            const newTasks=[newTask,...tasks]//created variable contains new and old tasks
+            statyCopy[newTask.todoListId]=newTasks//we choice current todolist where we give all tasks
             return  statyCopy
         case "CHANGE-STATUS":
             return {

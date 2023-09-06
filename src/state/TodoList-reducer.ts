@@ -93,5 +93,13 @@ export const fetchDataTodoTh=()=>{
             dispatch(setTodosAc(r.data))
         })
     }
+}
 
+export const deleteTodoTh=(todoId:string)=>{
+    return (dispatch: Dispatch)=>{
+        TODOLISTAPI.deleteTodo(todoId)
+            .then(r=>{
+                dispatch(removeTdAc(todoId))
+            })
+    }
 }

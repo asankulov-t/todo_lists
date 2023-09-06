@@ -1,6 +1,5 @@
-import {v1} from "uuid";
 
-import {TODOLISTAPI} from "../Api/Api";
+import {TODOLISTAPI, TodoListType} from "../Api/Api";
 import {Dispatch} from "redux";
 
 export type SET_TODOLISTS={
@@ -13,8 +12,7 @@ export type REMOVE_TODO={
 }
 export type ADD_TODO={
     type:'ADD-TODO',
-    title:string,
-    todoID:string
+    todoList:TodoListType
 }
 export type CHANGE_TITLE={
     type:'CHANGE-TITLE',
@@ -46,7 +44,7 @@ export const todoListReducer=(state:Array<TodoListEntityType>=initialState,actio
             return state.filter((t)=>t.id!=action.id)
         }
         case "ADD-TODO":{
-            return [{id:action.todoID,title:action.title},...state]
+            return [action.todoList,...state]
         }
         case "CHANGE-TITLE":{
             return state.map((t)=>{
@@ -66,11 +64,10 @@ export const removeTdAc=(id:string):REMOVE_TODO=>{
         id:id
     }
 }
-export const addTodoAc=(title:string):ADD_TODO=>{
+export const addTodoAc=(todoList:TodoListType):ADD_TODO=>{
     return {
         type:'ADD-TODO',
-        title,
-        todoID:v1()
+        todoList
     }
 }
 export const changeTitleAc=(id:string,title:string):CHANGE_TITLE=>{
@@ -100,6 +97,15 @@ export const deleteTodoTh=(todoId:string)=>{
         TODOLISTAPI.deleteTodo(todoId)
             .then(r=>{
                 dispatch(removeTdAc(todoId))
+            })
+    }
+}
+
+export const addTodoListTh=(title:string)=>{
+    return (dispatch: Dispatch)=>{
+        TODOLISTAPI.createTodoList(title)
+            .then(r=>{
+                dispatch(addTodoAc(r.data.data.item))
             })
     }
 }

@@ -5,7 +5,7 @@ import InputElement from "./Components/Input/InputElement";
 import {Card, Menu, MenuProps} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 import {
-    addTodoAc,
+    addTodoAc, addTodoListTh,
     changeTitleAc,
     fetchDataTodoTh,
     removeTdAc, TodoListEntityType,
@@ -43,8 +43,8 @@ function AppWithReducer() {
         dispatch(action)
     }, [dispatch])
     let addTodo = useCallback((title: string) => {
-        let action = addTodoAc(title);
-        dispatch(action)
+        // @ts-ignore
+        dispatch(addTodoListTh(title))
     }, [dispatch])
 
     console.log(todoLists)

@@ -5,7 +5,7 @@ import InputElement from "./Components/Input/InputElement";
 import {Card, Menu, MenuProps} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 import {
-    addTodoAc, addTodoListTh,
+    addTodoListTh,
     changeTitleAc,
     fetchDataTodoTh,
     removeTdAc, TodoListEntityType,
@@ -13,7 +13,7 @@ import {
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {taskType} from "./state/Tasks-reducer";
+import {localupdateTaksType, taskType} from "./state/Tasks-reducer";
 
 export type TasksStateType = {
     [key: string]: Array<taskType>

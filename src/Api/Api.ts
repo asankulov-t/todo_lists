@@ -45,7 +45,6 @@ export enum TaskStatuses {
 export type updateTaksType={
     title: string,
     description: string,
-    completed: TaskStatuses
     status:TaskStatuses,
     priority: number,
     startDate: string,
@@ -64,6 +63,16 @@ const instance=axios.create({
     ...settings
 })
 
+// description?: string
+// title: string
+// status: TaskStatuses
+// priority?: number
+// startDate?: string
+// deadline?: string
+// id: string
+// todoListId: string
+// order?: number
+// addedDate?: string
 
 export const TODOLISTAPI = {
     getTodoLists() {
@@ -87,7 +96,7 @@ export const TODOLISTAPI = {
     deleteTask(todoId:string,taskId:string){
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`)
     },
-    changeTask(todoId:string,taskId:string,title:string, model:updateTaksType){
+    changeTask(todoId:string,taskId:string,model:updateTaksType){
         return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,model)
     },
     createTask(todoId:string,title:string){

@@ -1,6 +1,7 @@
 
 import {TODOLISTAPI, TodoListType} from "../Api/Api";
 import {Dispatch} from "redux";
+import {addTaskAc} from "./Tasks-reducer";
 
 export type SET_TODOLISTS={
     type:'SET_TODOLISTS',
@@ -106,6 +107,15 @@ export const addTodoListTh=(title:string)=>{
         TODOLISTAPI.createTodoList(title)
             .then(r=>{
                 dispatch(addTodoAc(r.data.data.item))
+            })
+    }
+}
+
+export const changeTodoTitleTh=(todoId:string, title:string)=>{
+    return (dispatch: Dispatch) => {
+        TODOLISTAPI.changeTodoList(todoId,title)
+            .then(r => {
+                dispatch(changeTitleAc(todoId,title))
             })
     }
 }

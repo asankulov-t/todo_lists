@@ -1,8 +1,8 @@
 import React from 'react';
 import {Checkbox} from "antd";
 import EditableSpan from "../EditableSpan/EditableSpan";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons/lib";
-import {changeTaskAc, changeTaskTitleAc, deleteTaskTh, removeTaskAc} from "../../state/Tasks-reducer";
+import {DeleteOutlined} from "@ant-design/icons/lib";
+import {changeStatusTh, deleteTaskTh} from "../../state/Tasks-reducer";
 import {useDispatch} from "react-redux";
 import style from './Task.module.css'
 import {TaskStatuses, TODOLISTAPI} from "../../Api/Api";
@@ -16,6 +16,7 @@ export type taskType = {
 
 
 const Task = React.memo((props:taskType) => {
+    console.log(props.isDone)
     const dispatch = useDispatch();
     const onRemoveHandler = () => {
         // @ts-ignore
@@ -23,10 +24,12 @@ const Task = React.memo((props:taskType) => {
         }
 
     const changeCheck = () => {
-        dispatch(changeTaskAc(props.taskId, props.tdId))
+        // @ts-ignore
+        dispatch(changeStatusTh(props.tdId,{status:props.isDone==2?0:2}, props.taskId))
     }
     const changeTitleTask = (title: string) => {
-        dispatch(changeTaskTitleAc(props.tdId, props.taskId, title))
+        // @ts-ignore
+        dispatch(changeStatusTh(props.tdId,{title:title}, props.taskId))
     }
     return <li key={props.taskId} className={props.isDone ? style.is_done : ''}>
         <div className={style.list}>

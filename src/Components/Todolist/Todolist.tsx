@@ -9,15 +9,12 @@ import {AppRootState} from "../../state/store";
 
 import {
     addTaskAc, addTaskTh,
-    changeTaskAc,
-    changeTaskTitleAc, fetchDataTaskTh,
-    removeTaskAc, setTasksAc,
+    fetchDataTaskTh,
     taskType
 } from "../../state/Tasks-reducer";
 
 import Task from "../Tasks/Task";
-import {TODOLISTAPI} from "../../Api/Api";
-import {deleteTodoTh} from "../../state/TodoList-reducer";
+import {changeTodoTitleTh, deleteTodoTh} from "../../state/TodoList-reducer";
 
 type PropsType = {
     changeTitleTodo: (todoId: string, title: string) => void,
@@ -50,7 +47,8 @@ const Todolist = React.memo((props: PropsType) => {
         dispatch(addTaskTh(props.id,title))
     }, [dispatch, addTaskAc, props.id])
     const changeTodoTitleHendler = useCallback((title: string) => {
-        props.changeTitleTodo(props.id, title)
+        // @ts-ignore
+        dispatch(changeTodoTitleTh(props.id, title))
     }, [dispatch, props.changeTitleTodo, props.id])
 
     const deleteTodo=()=>{

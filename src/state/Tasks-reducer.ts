@@ -99,14 +99,14 @@ export const setTasksAc = (tasks: Array<taskType>, todoListID: string) => ({
 
 
 //thunks
-export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch) => {
+export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch<actions>) => {
     TODOLISTAPI.getTasks(todoId)
         .then(r => {
             dispatch(setTasksAc(r.data.items, todoId))
         })
 }
 
-export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
+export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch<actions>) => {
     TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
             dispatch(removeTaskAc(todoId, taskId))
@@ -114,7 +114,7 @@ export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispa
 }
 
 
-export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch) => {
+export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch<actions>) => {
     TODOLISTAPI.createTask(todoId, title)
         .then(r => {
             dispatch(addTaskAc(r.data.data.item))
@@ -124,7 +124,7 @@ export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch
 
 
 
-export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch, getState: () => AppRootState) => {
+export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch<actions>, getState: () => AppRootState) => {
     const state = getState();
     const currentTask = state.tasks[todoId].find(t => t.id === taskId)
     if (!currentTask) {

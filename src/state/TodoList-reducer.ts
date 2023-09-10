@@ -62,28 +62,29 @@ export const setTodosAc = (todolists: Array<TodoListEntityType>) => ({
 } as const)
 
 
-export const fetchDataTodoTh = () => (dispatch: Dispatch) => {
+//thunks todo
+export const fetchDataTodoTh = () => (dispatch: Dispatch<actionTypes>) => {
     TODOLISTAPI.getTodoLists()
         .then(r => {
             dispatch(setTodosAc(r.data))
         })
 }
 
-export const deleteTodoTh = (todoId: string) => (dispatch: Dispatch) => {
+export const deleteTodoTh = (todoId: string) => (dispatch: Dispatch<actionTypes>) => {
     TODOLISTAPI.deleteTodo(todoId)
         .then(r => {
             dispatch(removeTdAc(todoId))
         })
 }
 
-export const addTodoListTh = (title: string) => (dispatch: Dispatch) => {
+export const addTodoListTh = (title: string) => (dispatch: Dispatch<actionTypes>) => {
     TODOLISTAPI.createTodoList(title)
         .then(r => {
             dispatch(addTodoAc(r.data.data.item))
         })
 }
 
-export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: Dispatch) => {
+export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: Dispatch<actionTypes>) => {
     TODOLISTAPI.changeTodoList(todoId, title)
         .then(r => {
             dispatch(changeTitleAc(todoId, title))

@@ -15,6 +15,7 @@
     "@types/react-redux": "^7.1.25",
     "@types/uuid": "^9.0.1",
     "antd": "^5.5.0",
+    "antd-mobile": "^5.32.2",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

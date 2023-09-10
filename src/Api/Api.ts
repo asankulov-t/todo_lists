@@ -1,5 +1,18 @@
 import axios from "axios";
-import {taskType} from "../state/Tasks-reducer";
+
+
+type taskType = {
+    description?: string
+    title: string
+    status: TaskStatuses
+    priority?: number
+    startDate?: string
+    deadline?: string
+    id: string
+    todoListId: string
+    order?: number
+    addedDate?: string
+}
 
 export type TodoListType = {
     id: string,
@@ -63,16 +76,6 @@ const instance=axios.create({
     ...settings
 })
 
-// description?: string
-// title: string
-// status: TaskStatuses
-// priority?: number
-// startDate?: string
-// deadline?: string
-// id: string
-// todoListId: string
-// order?: number
-// addedDate?: string
 
 export const TODOLISTAPI = {
     getTodoLists() {

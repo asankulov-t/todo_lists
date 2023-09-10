@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
-import {Card, Menu, MenuProps} from 'antd';
+import {Card, Menu, MenuProps, Space} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoListTh,
@@ -13,7 +13,8 @@ import {
 
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
-import {localupdateTaksType, taskType} from "./state/Tasks-reducer";
+import {taskType} from "./state/Tasks-reducer";
+import ErrorSnackBar from "./Components/ErrorSnacbar/ErrorSnackBar";
 
 export type TasksStateType = {
     [key: string]: Array<taskType>
@@ -50,6 +51,11 @@ function AppWithReducer() {
     console.log(todoLists)
     return (
         <div className="App">
+
+
+
+
+
             <Menu
                 className={'header'}
                 triggerSubMenuAction={'hover'}
@@ -66,6 +72,7 @@ function AppWithReducer() {
                 items={items}/>
             <InputElement add={addTodo}/>
             <div className={'todos'}>
+                <ErrorSnackBar/>
                 {
                     todoLists.map((tl) => {
                         return <Card className={'cart'} hoverable={true}>

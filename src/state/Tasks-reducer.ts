@@ -12,6 +12,7 @@ export type actions =
     | ADD_TODO
     | REMOVE_TODO
     |SET_TODOLISTS
+
 export type taskType = {
     description?: string
     title: string
@@ -24,7 +25,6 @@ export type taskType = {
     order?: number
     addedDate?: string
 }
-
 export type localupdateTaksType = {
     title?: string,
     description?: string,
@@ -33,7 +33,6 @@ export type localupdateTaksType = {
     startDate?: string,
     deadline?: string,
 }
-
 
 const initialState: TasksStateType = {}
 
@@ -70,20 +69,16 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
     }
 }
 
-
 //actions
 export const removeTaskAc = (todoId: string, id: string) => ({
     type: "REMOVE-TASK",
     id,
     todoId
 } as const)
-
-
 export const addTaskAc = (task: taskType) => ({
     type: "ADD-TASK",
     task
 } as const)
-
 export const changeTaskAc = (id: string, model: localupdateTaksType, todoId: string) => ({type: "CHANGE-STATUS",
     model,
     id,
@@ -105,25 +100,18 @@ export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch<actions>)
             dispatch(setTasksAc(r.data.items, todoId))
         })
 }
-
 export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch<actions>) => {
     TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
             dispatch(removeTaskAc(todoId, taskId))
         })
 }
-
-
 export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch<actions>) => {
     TODOLISTAPI.createTask(todoId, title)
         .then(r => {
             dispatch(addTaskAc(r.data.data.item))
         })
 }
-
-
-
-
 export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch<actions>, getState: () => AppRootState) => {
     const state = getState();
     const currentTask = state.tasks[todoId].find(t => t.id === taskId)

@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
 import InputElement from "./Components/Input/InputElement";
-import {Card, Menu, MenuProps, Space} from 'antd';
+import {Card, Menu, MenuProps, Progress, Space} from 'antd';
 import {LoginOutlined} from '@ant-design/icons';
 import {
     addTodoListTh,
@@ -48,14 +48,8 @@ function AppWithReducer() {
         dispatch(addTodoListTh(title))
     }, [dispatch])
 
-    console.log(todoLists)
     return (
         <div className="App">
-
-
-
-
-
             <Menu
                 className={'header'}
                 triggerSubMenuAction={'hover'}
@@ -70,9 +64,9 @@ function AppWithReducer() {
                 mode="horizontal"
                 theme={"dark"}
                 items={items}/>
+            <Progress percent={100} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />
             <InputElement add={addTodo}/>
             <div className={'todos'}>
-                <ErrorSnackBar/>
                 {
                     todoLists.map((tl) => {
                         return <Card className={'cart'} hoverable={true}>
@@ -85,6 +79,8 @@ function AppWithReducer() {
                         </Card>
                     })
                 }
+                <ErrorSnackBar/>
+
             </div>
         </div>
     );

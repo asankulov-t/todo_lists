@@ -1,5 +1,6 @@
 import {TODOLISTAPI, TodoListType} from "../Api/Api";
 import {Dispatch} from "redux";
+import {actions, setStatusAc} from "./api_status";
 
 
 export type ADD_TODO = ReturnType<typeof addTodoAc>
@@ -63,30 +64,57 @@ export const setTodosAc = (todolists: Array<TodoListEntityType>) => ({
 
 
 //thunks todo
-export const fetchDataTodoTh = () => (dispatch: Dispatch<actionTypes>) => {
+export const fetchDataTodoTh = () => (dispatch: Dispatch<actionTypes|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
+
     TODOLISTAPI.getTodoLists()
         .then(r => {
-            dispatch(setTodosAc(r.data))
+            if (r.status===200){
+                dispatch(setTodosAc(r.data))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc('Some Error','failed'))
+            }
         })
 }
 
-export const deleteTodoTh = (todoId: string) => (dispatch: Dispatch<actionTypes>) => {
+export const deleteTodoTh = (todoId: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
+
     TODOLISTAPI.deleteTodo(todoId)
         .then(r => {
-            dispatch(removeTdAc(todoId))
+            if (r.status===200){
+                dispatch(removeTdAc(todoId))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc('Some Error','failed'))
+            }
         })
 }
 
-export const addTodoListTh = (title: string) => (dispatch: Dispatch<actionTypes>) => {
+export const addTodoListTh = (title: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.createTodoList(title)
         .then(r => {
-            dispatch(addTodoAc(r.data.data.item))
+            if (r.status===200){
+                dispatch(addTodoAc(r.data.data.item))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc('Some Error','failed'))
+            }
         })
 }
 
-export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: Dispatch<actionTypes>) => {
+export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
+
     TODOLISTAPI.changeTodoList(todoId, title)
         .then(r => {
-            dispatch(changeTitleAc(todoId, title))
+            if (r.status===200){
+                dispatch(changeTitleAc(todoId, title))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc('Some Error','failed'))
+            }
         })
 }

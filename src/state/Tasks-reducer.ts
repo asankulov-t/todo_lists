@@ -3,8 +3,9 @@ import {TasksStateType} from "../AppWithReducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TODOLISTAPI, updateTaksType} from "../Api/Api";
 import {AppRootState} from "./store";
+import {actions, setStatusAc} from "./api_status";
 
-export type actions =
+export type actionsType =
     ReturnType<typeof removeTaskAc>
     | ReturnType<typeof addTaskAc>
     | ReturnType<typeof changeTaskAc>
@@ -36,7 +37,7 @@ export type localupdateTaksType = {
 
 const initialState: TasksStateType = {}
 
-export const tasksReducer = (state: TasksStateType = initialState, action: actions): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: actionsType): TasksStateType => {
     switch (action.type) {
         case "SET_TASKS": {
             return {...state, [action.todoListID]:action.tasks}
@@ -94,25 +95,43 @@ export const setTasksAc = (tasks: Array<taskType>, todoListID: string) => ({
 
 
 //thunks
-export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch<actions>) => {
+export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch<actionsType|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.getTasks(todoId)
         .then(r => {
-            dispatch(setTasksAc(r.data.items, todoId))
+            if (r.data.error==null){
+                dispatch(setTasksAc(r.data.items, todoId))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc('some Error','failed'))
+            }
         })
 }
-export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch<actions>) => {
+export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch<actionsType|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
-            dispatch(removeTaskAc(todoId, taskId))
+            if (r.data.resultCode==0){
+                dispatch(removeTaskAc(todoId, taskId))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc(r.data.messages[0],'failed'))
+            }
         })
 }
-export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch<actions>) => {
+export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch<actionsType|actions>) => {
+    dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.createTask(todoId, title)
         .then(r => {
-            dispatch(addTaskAc(r.data.data.item))
+            if (r.data.resultCode==0){
+                dispatch(addTaskAc(r.data.data.item))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc(r.data.messages[0],'failed'))
+            }
         })
 }
-export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch<actions>, getState: () => AppRootState) => {
+export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch<actionsType|actions>, getState: () => AppRootState) => {
     const state = getState();
     const currentTask = state.tasks[todoId].find(t => t.id === taskId)
     if (!currentTask) {
@@ -127,9 +146,17 @@ export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType,
         deadline: '',
         ...doimainData
     }
+    dispatch(setStatusAc(null,'loading'))
+
     TODOLISTAPI.changeTask(todoId, taskId, model)
         .then(r => {
-            dispatch(changeTaskAc(taskId, model, todoId))
+            if (r.data.resultCode==0){
+                dispatch(changeTaskAc(taskId, model, todoId))
+                dispatch(setStatusAc(null,'succeess'))
+            }else {
+                dispatch(setStatusAc(r.data.messages[0],'failed'))
+            }
+
         })
 }
 

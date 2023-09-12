@@ -35,6 +35,7 @@ function AppWithReducer() {
         }
     ]
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
+    let status=useSelector<AppRootState>(state => state.apiStatusReducer.status)
     let changeTitleTodo = useCallback((todoId: string, title: string) => {
         let action = changeTitleAc(todoId, title)
         dispatch(action)
@@ -64,7 +65,7 @@ function AppWithReducer() {
                 mode="horizontal"
                 theme={"dark"}
                 items={items}/>
-            <Progress percent={100} status="active" strokeColor={{ from: '#108ee9', to: '#87d068' }} />
+            {status==='loading'&&<Progress format={()=>''} percent={100} status="exception" strokeColor={{ from: '#108ee9', to: '#7e1ab0' }} />}
             <InputElement add={addTodo}/>
             <div className={'todos'}>
                 {
@@ -79,9 +80,9 @@ function AppWithReducer() {
                         </Card>
                     })
                 }
-                <ErrorSnackBar/>
-
             </div>
+            <ErrorSnackBar/>
+
         </div>
     );
 }

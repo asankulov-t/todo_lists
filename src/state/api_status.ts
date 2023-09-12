@@ -3,9 +3,9 @@ type initialStateType={
     status:status
     errors:string|null
 }
-type actions=ReturnType<typeof setStatusAc>
+export type actions=ReturnType<typeof setStatusAc>
 const initState:initialStateType={
-    status:'failed',
+    status:'succeess',
     errors:'Some Error'
 }
 export const apiStatusReducer=(state:initialStateType=initState,action:actions):initialStateType=>{

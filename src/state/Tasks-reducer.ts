@@ -1,4 +1,4 @@
-import {ADD_TODO, REMOVE_TODO, SET_TODOLISTS} from "./TodoList-reducer";
+import {actionTypes, ADD_TODO, REMOVE_TODO, SET_TODOLISTS} from "./TodoList-reducer";
 import {TasksStateType} from "../AppWithReducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TODOLISTAPI, updateTaksType} from "../Api/Api";
@@ -95,43 +95,40 @@ export const setTasksAc = (tasks: Array<taskType>, todoListID: string) => ({
 
 
 //thunks
-export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch<actionsType|actions>) => {
+export const fetchDataTaskTh = (todoId: string) => (dispatch:thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.getTasks(todoId)
         .then(r => {
-            if (r.data.error==null){
                 dispatch(setTasksAc(r.data.items, todoId))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc('some Error','failed'))
-            }
+        })
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
         })
 }
-export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch<actionsType|actions>) => {
+export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
-            if (r.data.resultCode==0){
                 dispatch(removeTaskAc(todoId, taskId))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc(r.data.messages[0],'failed'))
-            }
+        })
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
         })
 }
-export const addTaskTh = (todoId: string, title: string) =>  (dispatch: Dispatch<actionsType|actions>) => {
+export const addTaskTh = (todoId: string, title: string) =>  (dispatch:Dispatch) => {
     dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.createTask(todoId, title)
         .then(r => {
-            if (r.data.resultCode==0){
                 dispatch(addTaskAc(r.data.data.item))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc(r.data.messages[0],'failed'))
-            }
+        })
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
         })
 }
-export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch: Dispatch<actionsType|actions>, getState: () => AppRootState) => {
+export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch:thunkDispatch, getState: () => AppRootState) => {
     const state = getState();
     const currentTask = state.tasks[todoId].find(t => t.id === taskId)
     if (!currentTask) {
@@ -150,14 +147,12 @@ export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType,
 
     TODOLISTAPI.changeTask(todoId, taskId, model)
         .then(r => {
-            if (r.data.resultCode==0){
                 dispatch(changeTaskAc(taskId, model, todoId))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc(r.data.messages[0],'failed'))
-            }
-
+        })
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
         })
 }
 
-
+type thunkDispatch=Dispatch<actionsType|actions>

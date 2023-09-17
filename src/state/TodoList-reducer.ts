@@ -64,57 +64,56 @@ export const setTodosAc = (todolists: Array<TodoListEntityType>) => ({
 
 
 //thunks todo
-export const fetchDataTodoTh = () => (dispatch: Dispatch<actionTypes|actions>) => {
+export const fetchDataTodoTh = () => (dispatch:thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
 
     TODOLISTAPI.getTodoLists()
         .then(r => {
-            if (r.status===200){
                 dispatch(setTodosAc(r.data))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc('Some Error','failed'))
-            }
         })
-}
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
+        })
 
-export const deleteTodoTh = (todoId: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+};
+
+export const deleteTodoTh = (todoId: string) => (dispatch:thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
 
     TODOLISTAPI.deleteTodo(todoId)
         .then(r => {
-            if (r.status===200){
                 dispatch(removeTdAc(todoId))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc('Some Error','failed'))
-            }
         })
-}
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
+        })
+};
 
-export const addTodoListTh = (title: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+export const addTodoListTh = (title: string) => (dispatch:thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
     TODOLISTAPI.createTodoList(title)
         .then(r => {
-            if (r.status===200){
                 dispatch(addTodoAc(r.data.data.item))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc('Some Error','failed'))
-            }
         })
-}
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
+        })
+};
 
-export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: Dispatch<actionTypes|actions>) => {
+export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: thunkDispatch) => {
     dispatch(setStatusAc(null,'loading'))
 
     TODOLISTAPI.changeTodoList(todoId, title)
         .then(r => {
-            if (r.status===200){
                 dispatch(changeTitleAc(todoId, title))
                 dispatch(setStatusAc(null,'succeess'))
-            }else {
-                dispatch(setStatusAc('Some Error','failed'))
-            }
         })
-}
+        .catch((error)=>{
+            dispatch(setStatusAc(error,'failed'))
+        })
+};
+
+type thunkDispatch=Dispatch<actionTypes|actions>

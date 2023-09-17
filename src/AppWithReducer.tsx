@@ -1,26 +1,23 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import Todolist from './Components/Todolist/Todolist';
-import {Card, Menu, MenuProps, Progress, Space} from 'antd';
-import {LoginOutlined} from '@ant-design/icons';
-
-import {useDispatch, useSelector} from "react-redux";
+import {Progress} from 'antd';
+import { useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {taskType} from "./state/Tasks-reducer";
 import ErrorSnackBar from "./Components/ErrorSnacbar/ErrorSnackBar";
 import Login from "./Login/Login";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import NavBar from "./Components/Nav/NavBar";
 
 export type TasksStateType = {
     [key: string]: Array<taskType>
 }
 
-//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
+//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
 function AppWithReducer() {
 
     let status=useSelector<AppRootState>(state => state.apiStatusReducer.status)
-    let loginStatus=useSelector<AppRootState>(state => state.login.isLoggin)
 
 
 

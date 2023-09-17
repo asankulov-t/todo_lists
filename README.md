@@ -1,2 +1,8 @@
-In this Project I use TypeScript, React JS, Redux, Redux-thunk, Test,Ant Design,associated array
-You can see result of this project here:
+#TODOLIST
+
+В этом проекте я использовал такие технологии как: React, Redux, Redux-thunk,Axios, React-router-dom, TypeScript, ant
+design. Почти полностью написан на
+TypeScript. В приложении используется REST API. Есть авторизация. Вы сразу сможете авторизоваться и протестировать.
+Логин и папроль прописаны в инпутах. В приложении можно добавлять, удалять, редактировать. Двойной клип по заголовкам
+дает возможность редактировать. Каждое действие отправляется на серверь. Сервер давал
+данные ассоциативный массив и с этим было немного трудно но кажется справился))

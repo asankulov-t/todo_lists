@@ -30,13 +30,14 @@ const Login = () => {
     }
 
 
-    return (<Card>
+    return (<Card style={{margin:'0 auto', textAlign:'center',maxWidth:'550px'}}>
             <h3>Авторизация</h3>
             <Form
+
                 name="basic"
-                labelCol={{ span: 8 }}
+                labelCol={{ span: 6 }}
                 wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600 }}
+                style={{ maxWidth: 600,textAlign:'center', margin:'0 auto'}}
                 initialValues={{email:'asankulov.t@mail.ru',password:'011235813.ttt', rememberMe: true }}
                 onFinish={onFinish}
                 autoComplete="off"
@@ -60,14 +61,14 @@ const Login = () => {
                 <Form.Item<FieldType>
                     name="rememberMe"
                     valuePropName="checked"
-                    wrapperCol={{ offset: 8, span: 16 }}
+                    wrapperCol={{ offset: 4, span: 16 }}
                 >
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Log in
                     </Button>
                 </Form.Item>
             </Form>

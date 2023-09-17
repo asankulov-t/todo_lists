@@ -1,87 +1,79 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import style from './Todolist.module.css'
 import InputElement from "../Input/InputElement";
 import EditableSpan from "../EditableSpan/EditableSpan";
-import {Button, Checkbox, Space} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {DeleteOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 
 import {
-    addTaskAc, addTaskTh,
-    fetchDataTaskTh,
-    taskType
+   addTaskTh,
 } from "../../state/Tasks-reducer";
 
-import Task from "../Tasks/Task";
-import {changeTodoTitleTh, deleteTodoTh} from "../../state/TodoList-reducer";
+import {
+    addTodoListTh,
+    changeTodoTitleTh,
+    deleteTodoTh, fetchDataTodoTh,
+    TodoListEntityType
+} from "../../state/TodoList-reducer";
+import Tasks from "../Tasks/Tasks";
+import {Card} from "antd";
 
-type PropsType = {
-    changeTitleTodo: (todoId: string, title: string) => void,
-    removeTodo: (id: string) => void,
-    id: string,
-    title: string,
-}
-export type FilterType = "All" | "Active" | "Completed"
 
-const Todolist = React.memo((props: PropsType) => {
+
+const Todolist = React.memo(() => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         // @ts-ignore
-        dispatch(fetchDataTaskTh(props.id))
+        dispatch(fetchDataTodoTh())
     }, [])
-    const tasks = useSelector<AppRootState, Array<taskType>>(state => state.tasks[props.id]);
-    let [filter, SetFilter] = useState<FilterType>("All")
-    let filteredTask = tasks;
-
-    if (filter === 'Active') {
-        filteredTask = tasks.filter(t => t.status! == 2)
-    }
-    if (filter === 'Completed') {
-        filteredTask = tasks.filter(t => t.status === 2)
-    }
-
-
-    const localAddFunc = useCallback((title: string) => {
+    const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
+    const localAddFunc = useCallback((id:string,title: string) => {
         // @ts-ignore
-        dispatch(addTaskTh(props.id,title))
-    }, [dispatch, addTaskAc, props.id])
-    const changeTodoTitleHendler = useCallback((title: string) => {
-        // @ts-ignore
-        dispatch(changeTodoTitleTh(props.id, title))
-    }, [dispatch, props.changeTitleTodo, props.id])
+        dispatch(addTaskTh(id,title))
+    }, [dispatch, addTaskTh])
 
-    const deleteTodo=()=>{
+    let addTodo = useCallback((id:string,title: string) => {
         // @ts-ignore
-        dispatch(deleteTodoTh(props.id))
-    }
+        dispatch(addTodoListTh(title))
+    }, [dispatch,addTodoListTh])
+
+    const changeTodoTitleHendler = useCallback((id:string,title: string) => {
+        // @ts-ignore
+        dispatch(changeTodoTitleTh(id, title))
+    }, [dispatch,changeTodoTitleTh])
+
+    let removeTodo = useCallback((id: string) => {
+        // @ts-ignore
+        dispatch(deleteTodoTh(id))
+    }, [dispatch,deleteTodoTh])
 
     return (
-        <div className={style.card}>
-            <h3><EditableSpan title={props.title} onChange={changeTodoTitleHendler}/>
-                <DeleteOutlined onClick={deleteTodo}></DeleteOutlined>
-            </h3>
-            <div>
-                <InputElement add={localAddFunc}/>
-            </div>
-            <ul>
-                {filteredTask ? filteredTask.map((item) => {
-                    return <Task title={item.title} taskId={item.id} tdId={props.id} isDone={item.status}/>
-                }) : ''}
+        <div >
+            <InputElement add={addTodo} id={'sd'}/>
+            <div className="todos">
+                {todoLists.map((td) => {
+                    return (
+                        <div key={td.id} className={style.card}>
+                            <Card hoverable>
 
-            </ul>
-            <div className={style.btns}>
-                <Space wrap>
-                    <Button onClick={() => SetFilter('All')}
-                            type={filter === "All" ? "primary" : "default"}>All</Button>
-                    <Button onClick={() => SetFilter('Active')}
-                            type={filter === "Active" ? "primary" : "default"}>Active</Button>
-                    <Button onClick={() => SetFilter('Completed')}
-                            type={filter === "Completed" ? "primary" : "default"}>Completed</Button>
-                </Space>
+                                <h3><EditableSpan title={td.title} id={td.id} onChange={changeTodoTitleHendler}/>
+                                    <DeleteOutlined onClick={() => removeTodo(td.id)}></DeleteOutlined>
+                                </h3>
+                                <div>
+                                    <InputElement add={localAddFunc} id={td.id}/>
+                                </div>
+
+                                <Tasks id={td.id}/>
+                            </Card>
+                        </div>
+                    )
+                })
+                }
             </div>
         </div>
-    )
+    );
 })
 
 export default Todolist;

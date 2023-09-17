@@ -16,7 +16,6 @@ export type taskType = {
 
 
 const Task = React.memo((props:taskType) => {
-    console.log(props.isDone)
     const dispatch = useDispatch();
     const onRemoveHandler = () => {
         // @ts-ignore
@@ -27,19 +26,20 @@ const Task = React.memo((props:taskType) => {
         // @ts-ignore
         dispatch(changeStatusTh(props.tdId,{status:props.isDone==2?0:2}, props.taskId))
     }
-    const changeTitleTask = (title: string) => {
+    const changeTitleTask = (id:string,title: string) => {
         // @ts-ignore
-        dispatch(changeStatusTh(props.tdId,{title:title}, props.taskId))
+        dispatch(changeStatusTh(props.tdId,{title:title}, id))
     }
     return <li key={props.taskId} className={props.isDone ? style.is_done : ''}>
         <div className={style.list}>
             <Checkbox className={style.check_icon}
-                      checked={props.isDone==2?true:false}
+                      checked={props.isDone == 2}
                       onChange={changeCheck}>
             </Checkbox>
             <div className={style.titleAndTresh}>
                 <div>
                     <EditableSpan title={props.title}
+                                  id={props.taskId}
                                   onChange={changeTitleTask}/>
                 </div>
                 <div >

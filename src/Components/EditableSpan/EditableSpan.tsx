@@ -3,7 +3,8 @@ import style from './EditableSpan.module.css'
 import {Input} from "antd";
 export type EditType = {
     title: string,
-    onChange:(title:string)=>void
+    onChange:(id:string,title:string)=>void,
+    id:string
 }
 
 
@@ -19,7 +20,7 @@ const EditableSpan = React.memo((props: EditType) => {
     }
     const viewModeActivate=()=>{
         setEditMode(false)
-        props.onChange(title)
+        props.onChange(props.id,title)
     }
     return (
         <div >

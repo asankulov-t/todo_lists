@@ -1,11 +1,11 @@
 .App {
   height: 100vh;
-
 }
 .header{
   margin-bottom: 15px;
 }
 .todos{
+  margin: 30px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -15,5 +15,6 @@
 }
 .cart{
   margin: 20px;
+
 }
 

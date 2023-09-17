@@ -1,39 +1,40 @@
 import {Button, Input} from 'antd';
-import React, {ChangeEvent, useState,KeyboardEvent} from 'react';
+import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import style from './InputElementStyle.module.css'
-export type inputType={
-    add:(title:string)=>void
+
+export type inputType = {
+    add: (id: string, title: string) => void,
+    id?: string
 }
 
-const InputElement = React.memo((props:inputType) => {
-    let [title, setTitle]=useState<string>("");
-    let [error, setError]=useState<boolean>(false)
+const InputElement = React.memo((props: inputType) => {
+    let [title, setTitle] = useState<string>("");
+    let [error, setError] = useState<boolean>(false)
 
-    let changeInput=(e:ChangeEvent<HTMLInputElement>)=>{
+    let changeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    console.log('Input element rendered')
-    let addFunc=()=>{
-        if (title!==''){
-            props.add(title.trim())
+    let addFunc = () => {
+        if (title !== '') {
+            props.add(props.id ? props.id : '', title.trim())
             setTitle('')
             setError(false)
-        }else {
+        } else {
             setError(true)
         }
     }
 
-    let enterBtn=(e:KeyboardEvent<HTMLInputElement>)=>{
-           if (e.charCode===13){
-               addFunc()
-               setTitle('')
-           }
+    let enterBtn = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.charCode === 13) {
+            addFunc()
+            setTitle('')
+        }
     }
 
     return <div>
         <div className={style.inputBlock}>
             <Input
-                status={error?"error":''}
+                status={error ? "error" : ''}
                 placeholder="Write something"
                 size="large"
                 value={title}
@@ -41,10 +42,10 @@ const InputElement = React.memo((props:inputType) => {
                 onKeyPress={enterBtn}
                 type={"text"}
             />
-            <Button ghost onClick={()=>addFunc()}>+</Button>
+            <Button ghost onClick={() => addFunc()}>+</Button>
 
         </div>
-        <p className={style.error}>{error?'Field is Empty':''}</p>
+        <p className={style.error}>{error ? 'Field is Empty' : ''}</p>
     </div>
 
 })

@@ -45,3 +45,21 @@ export const LoginFetchTh=(data:loginType)=>(dispatch:Dispatch<actionType|action
             dispatch(setStatusAc(error.messages, 'failed'))
     })
 }
+
+export const logoutTh=()=>(dispatch:Dispatch<actionType|actions>)=>{
+    dispatch(setStatusAc(null, 'loading'))
+    TODOLISTAPI.logoutApi().then((r)=>{
+        if (r.data.resultCode===0){
+            dispatch(setLogginAc(false))
+            dispatch(setStatusAc(null, 'succeess'))
+        }else {
+            dispatch(setLogginAc(false))
+            dispatch(setStatusAc(r.data.messages[0], 'failed'))
+        }
+
+    })
+        .catch((error)=>{
+            dispatch(setLogginAc(false))
+            dispatch(setStatusAc(error.messages, 'failed'))
+        })
+}

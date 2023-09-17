@@ -18,15 +18,20 @@ import {
 } from "../../state/TodoList-reducer";
 import Tasks from "../Tasks/Tasks";
 import {Card} from "antd";
+import {Navigate} from "react-router-dom";
 
 
 
 const Todolist = React.memo(() => {
     const dispatch = useDispatch();
+    let loginStatus=useSelector<AppRootState>(state => state.login.isLoggin)
 
     useEffect(() => {
         // @ts-ignore
-        dispatch(fetchDataTodoTh())
+        if (loginStatus==true){
+            // @ts-ignore
+            dispatch(fetchDataTodoTh())
+        }
     }, [])
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     const localAddFunc = useCallback((id:string,title: string) => {
@@ -48,7 +53,9 @@ const Todolist = React.memo(() => {
         // @ts-ignore
         dispatch(deleteTodoTh(id))
     }, [dispatch,deleteTodoTh])
-
+    if (!loginStatus){
+        return <Navigate to={'/login'}/>
+    }
     return (
         <div >
             <InputElement add={addTodo} id={'sd'}/>

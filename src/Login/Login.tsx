@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {LoginFetchTh} from "../state/LoginReducer";
 import {loginType} from "../Api/Api";
 import {AppRootState} from "../state/store";
-import {Navigate, redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 
 
@@ -18,11 +18,7 @@ type FieldType = {
 
 const Login = () => {
     let isLogin=useSelector<AppRootState, boolean>(state => state.login.isLoggin)
-
-
-
     let dis=useDispatch()
-    console.log(isLogin)
     const onFinish = (values: loginType) => {
         console.log(values)
         // @ts-ignore

@@ -32,7 +32,7 @@ export type LoginResType = {
     resultCode: number,
     messages: Array<string>,
     data: {
-        userId?:number
+        userId?: number
     }
 }
 
@@ -51,7 +51,6 @@ export type DeleteUpdateTodolistResponseType = {
 }
 
 
-
 export type getTasksType = {
     items: Array<taskType>,
     totalCount: number,
@@ -64,20 +63,21 @@ export enum TaskStatuses {
     Completed = 2,
     Draft = 3
 }
+
 //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
-export type updateTaksType={
+export type updateTaksType = {
     title: string,
     description: string,
-    status:TaskStatuses,
+    status: TaskStatuses,
     priority: number,
     startDate: string,
     deadline: string,
 }
 
-export type loginType={
-    email:string,
-    password:string,
-    rememberMe:boolean
+export type loginType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
 }
 
 
@@ -88,43 +88,44 @@ const settings = {
     }
 }
 
-const instance=axios.create({
-    baseURL:'https://social-network.samuraijs.com/api/1.1/',
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
 
 
 export const TODOLISTAPI = {
     getTodoLists() {
-        return  instance.get<Array<TodoListType>>('todo-lists')
+        return instance.get<Array<TodoListType>>('todo-lists')
     },
     createTodoList(title: string) {
         return instance.post<CreateTodolistResponseType>('todo-lists', {title: title})
     },
     changeTodoList(id: string, title: string) {
-        return  instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${id}`, {title: title})
+        return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${id}`, {title: title})
     },
     deleteTodo(id: string) {
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${id}`)
     },
 
-    authAPI(data:loginType){
-
-        return instance.post<LoginResType>('/auth/login',{...data})
-},
-
+    authAPI(data: loginType) {
+        return instance.post<LoginResType>('/auth/login', {...data})
+    },
+    logoutApi() {
+        return instance.delete<LoginResType>('/auth/login')
+    },
     //tasks
     getTasks(todoId: string) {
-        return  instance.get<getTasksType>(`todo-lists/${todoId}/tasks`)
+        return instance.get<getTasksType>(`todo-lists/${todoId}/tasks`)
     },
-    deleteTask(todoId:string,taskId:string){
+    deleteTask(todoId: string, taskId: string) {
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`)
     },
-    changeTask(todoId:string,taskId:string,model:updateTaksType){
-        return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`,model)
+    changeTask(todoId: string, taskId: string, model: updateTaksType) {
+        return instance.put<DeleteUpdateTodolistResponseType>(`todo-lists/${todoId}/tasks/${taskId}`, model)
     },
-    createTask(todoId:string,title:string){
-        return instance.post<CreateTakstResponseType>(`todo-lists/${todoId}/tasks`,{title:title})
+    createTask(todoId: string, title: string) {
+        return instance.post<CreateTakstResponseType>(`todo-lists/${todoId}/tasks`, {title: title})
     },
 }
 

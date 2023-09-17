@@ -3,12 +3,14 @@ import thunkMiddleware from "redux-thunk";
 import {tasksReducer} from "./Tasks-reducer";
 import {todoListReducer} from "./TodoList-reducer";
 import {apiStatusReducer} from "./api_status";
+import {LoginReducer} from "./LoginReducer";
 
 
 const rootReducer=combineReducers({
     todoLists:todoListReducer,
     tasks:tasksReducer,
-    apiStatusReducer:apiStatusReducer
+    apiStatusReducer:apiStatusReducer,
+    login:LoginReducer
 })
 
 export type AppRootState=ReturnType<typeof rootReducer>

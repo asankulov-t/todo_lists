@@ -1,15 +1,14 @@
 import React from 'react';
 import {Button, Card, Checkbox, Form, Input} from 'antd';
 import {useFormik} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {LoginFetchTh} from "../state/LoginReducer";
+import {loginType} from "../Api/Api";
+import {AppRootState} from "../state/store";
+import {redirect} from "react-router-dom";
 
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
 
 type FieldType = {
     username?: string;
@@ -18,34 +17,35 @@ type FieldType = {
 };
 
 const Login = () => {
+    let dis=useDispatch()
+    let isLogin=useSelector<AppRootState, boolean>(state => state.login.isLoggin)
+    console.log(isLogin)
+    const onFinish = (values: loginType) => {
+        console.log(values)
+        // @ts-ignore
+        dis(LoginFetchTh(values))
+    };
 
-    let formik=useFormik({
-        initialValues:{
-            email:'asankulov.t@mail.ru',
-            password:'',
-            rememberMe:false
-        },
-        onSubmit:values => {
+    if (isLogin){
+        redirect('/')
+    }
 
-        }
-    })
 
-    return (
-        <Card>
+
+    return (<Card>
             <h3>Авторизация</h3>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
                 style={{ maxWidth: 600 }}
-                initialValues={{username:'asankulov.t@mail.ru',password:'011235813.ttt', remember: true }}
+                initialValues={{email:'asankulov.t@mail.ru',password:'011235813.ttt', rememberMe: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item<FieldType>
-                    label="Username"
-                    name="username"
+                    label="email"
+                    name="email"
                     rules={[{ required: true, message: 'Please input your username!' }]}
                 >
                     <Input />
@@ -60,7 +60,7 @@ const Login = () => {
                 </Form.Item>
 
                 <Form.Item<FieldType>
-                    name="remember"
+                    name="rememberMe"
                     valuePropName="checked"
                     wrapperCol={{ offset: 8, span: 16 }}
                 >

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 
 type taskType = {
@@ -27,6 +27,16 @@ export type CreateTodolistResponseType = {
         item: TodoListType
     }
 }
+
+export type LoginResType = {
+    resultCode: number,
+    messages: Array<string>,
+    data: {
+        userId?:number
+    }
+}
+
+
 export type CreateTakstResponseType = {
     resultCode: number,
     messages: Array<string>,
@@ -64,6 +74,13 @@ export type updateTaksType={
     deadline: string,
 }
 
+export type loginType={
+    email:string,
+    password:string,
+    rememberMe:boolean
+}
+
+
 const settings = {
     withCredentials: true,
     headers: {
@@ -91,6 +108,10 @@ export const TODOLISTAPI = {
         return instance.delete<DeleteUpdateTodolistResponseType>(`todo-lists/${id}`)
     },
 
+    authAPI(data:loginType){
+
+        return instance.post<LoginResType>('/auth/login',{...data})
+},
 
     //tasks
     getTasks(todoId: string) {

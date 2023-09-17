@@ -24,18 +24,18 @@ export type TasksStateType = {
 
 
 function AppWithReducer() {
+
+    let status=useSelector<AppRootState>(state => state.apiStatusReducer.status)
+    let loginStatus=useSelector<AppRootState>(state => state.login.isLoggin)
+
     const items: MenuProps['items'] = [
         {
-            label: 'LOGIN',
-            key: 'Login',
+            label: loginStatus===true?'Logout':'Login',
+            key: loginStatus===true?'Logout':'Login',
             icon: <LoginOutlined className={'icon'}/>,
         }
     ]
-    let status=useSelector<AppRootState>(state => state.apiStatusReducer.status)
-
-
     return <div className="App">
-
                 <Menu
                     className={'header'}
                     triggerSubMenuAction={'hover'}
@@ -50,10 +50,10 @@ function AppWithReducer() {
                     mode="horizontal"
                     theme={"dark"}
                     items={items}/>
-                {status==='loading'&&<Progress format={()=>''} percent={100} status="exception" strokeColor={{ from: '#108ee9', to: '#7e1ab0' }} />}
+                 {status==='loading'&&<Progress format={()=>''} percent={100} status="exception" strokeColor={{ from: '#108ee9', to: '#7e1ab0' }} />}
                   <Routes>
                       <Route path={'/login'} element={<Login/>}/>
-                       <Route path={'/todo_lists'} element={  <Todolist/>}/>
+                       <Route path={'/'} element={  <Todolist/>}/>
                   </Routes>
                   <ErrorSnackBar/>
 

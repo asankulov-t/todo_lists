@@ -43,6 +43,5 @@ export const LoginFetchTh=(data:loginType)=>(dispatch:Dispatch<actionType|action
     .catch((error)=>{
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(error.messages, 'failed'))
-
     })
 }

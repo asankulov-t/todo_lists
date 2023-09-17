@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Card, Checkbox, Form, Input} from 'antd';
-import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {LoginFetchTh} from "../state/LoginReducer";
 import {loginType} from "../Api/Api";
 import {AppRootState} from "../state/store";
-import {redirect} from "react-router-dom";
+import {Navigate, redirect} from "react-router-dom";
 
 
 
@@ -16,9 +15,13 @@ type FieldType = {
     remember?: string;
 };
 
+
 const Login = () => {
-    let dis=useDispatch()
     let isLogin=useSelector<AppRootState, boolean>(state => state.login.isLoggin)
+
+
+
+    let dis=useDispatch()
     console.log(isLogin)
     const onFinish = (values: loginType) => {
         console.log(values)
@@ -27,9 +30,8 @@ const Login = () => {
     };
 
     if (isLogin){
-        redirect('/')
+        return  <Navigate to={'/'}/>
     }
-
 
 
     return (<Card>

@@ -64,14 +64,12 @@ const Todolist = React.memo(() => {
                     return (
                         <div key={td.id} className={style.card}>
                             <Card hoverable>
-
                                 <h3><EditableSpan title={td.title} id={td.id} onChange={changeTodoTitleHendler}/>
                                     <DeleteOutlined onClick={() => removeTodo(td.id)}></DeleteOutlined>
                                 </h3>
                                 <div>
                                     <InputElement add={localAddFunc} id={td.id}/>
                                 </div>
-
                                 <Tasks id={td.id}/>
                             </Card>
                         </div>

@@ -4,6 +4,7 @@ import {tasksReducer} from "./Tasks-reducer";
 import {todoListReducer} from "./TodoList-reducer";
 import {apiStatusReducer} from "./api_status";
 import {LoginReducer} from "./LoginReducer";
+import {configureStore} from "@reduxjs/toolkit";
 
 
 const rootReducer=combineReducers({
@@ -15,6 +16,9 @@ const rootReducer=combineReducers({
 
 export type AppRootState=ReturnType<typeof rootReducer>
 
-export const store=createStore(rootReducer,applyMiddleware(thunkMiddleware));
-
+//export const store=createStore(rootReducer,applyMiddleware(thunkMiddleware));
+export const store=configureStore({
+    reducer:rootReducer,
+    middleware:getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
+})
 

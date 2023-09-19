@@ -10,7 +10,7 @@ const ErrorSnackBar = () => {
     let status=useSelector<AppRootState>(state => state.apiStatusReducer.status)
     let dispatch=useDispatch()
     let closeItem=()=>{
-        dispatch(setStatusAc(null,"succeess"))
+        dispatch(setStatusAc({error:null,status:"succeess"}))
     }
     return (
         status=='failed'?

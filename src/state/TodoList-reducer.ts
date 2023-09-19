@@ -65,54 +65,54 @@ export const setTodosAc = (todolists: Array<TodoListEntityType>) => ({
 
 //thunks todo
 export const fetchDataTodoTh = () => (dispatch:thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
 
     TODOLISTAPI.getTodoLists()
         .then(r => {
                 dispatch(setTodosAc(r.data))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null, status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error,status:'failed'}))
         })
 
 };
 
 export const deleteTodoTh = (todoId: string) => (dispatch:thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
 
     TODOLISTAPI.deleteTodo(todoId)
         .then(r => {
                 dispatch(removeTdAc(todoId))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null, status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error,status:'failed'}))
         })
 };
 
 export const addTodoListTh = (title: string) => (dispatch:thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
     TODOLISTAPI.createTodoList(title)
         .then(r => {
                 dispatch(addTodoAc(r.data.data.item))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null,status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error,status:'failed'}))
         })
 };
 
 export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
 
     TODOLISTAPI.changeTodoList(todoId, title)
         .then(r => {
                 dispatch(changeTitleAc(todoId, title))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null,status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error,status:'failed'}))
         })
 };
 

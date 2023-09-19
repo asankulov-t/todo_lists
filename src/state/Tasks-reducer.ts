@@ -96,36 +96,36 @@ export const setTasksAc = (tasks: Array<taskType>, todoListID: string) => ({
 
 //thunks
 export const fetchDataTaskTh = (todoId: string) => (dispatch:thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null, status:'loading'}))
     TODOLISTAPI.getTasks(todoId)
         .then(r => {
                 dispatch(setTasksAc(r.data.items, todoId))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null, status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error, status:'failed'}))
         })
 }
 export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: thunkDispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null, status:'loading'}))
     TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
                 dispatch(removeTaskAc(todoId, taskId))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null, status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error, status:'failed'}))
         })
 }
 export const addTaskTh = (todoId: string, title: string) =>  (dispatch:Dispatch) => {
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
     TODOLISTAPI.createTask(todoId, title)
         .then(r => {
                 dispatch(addTaskAc(r.data.data.item))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null,status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error:error,status:'failed'}))
         })
 }
 export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) =>  (dispatch:thunkDispatch, getState: () => AppRootState) => {
@@ -143,15 +143,15 @@ export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType,
         deadline: '',
         ...doimainData
     }
-    dispatch(setStatusAc(null,'loading'))
+    dispatch(setStatusAc({error:null,status:'loading'}))
 
     TODOLISTAPI.changeTask(todoId, taskId, model)
         .then(r => {
                 dispatch(changeTaskAc(taskId, model, todoId))
-                dispatch(setStatusAc(null,'succeess'))
+                dispatch(setStatusAc({error:null,status:'succeess'}))
         })
         .catch((error)=>{
-            dispatch(setStatusAc(error,'failed'))
+            dispatch(setStatusAc({error, status:'failed'}))
         })
 }
 

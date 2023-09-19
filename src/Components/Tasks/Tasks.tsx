@@ -18,14 +18,14 @@ const Tasks = React.memo((props:propsType) => {
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchDataTaskTh(props.id))
-    }, [])
+    }, [dispatch,props.id])
 
 
     const tasks = useSelector<AppRootState, Array<taskType>>(state => state.tasks[props.id]);
     let filteredTask = tasks;
 
     if (filter === 'Active') {
-        filteredTask = tasks.filter(t => t.status! == 2)
+        filteredTask = tasks.filter(t => t.status! === 2)
     }
     if (filter === 'Completed') {
         filteredTask = tasks.filter(t => t.status === 2)

@@ -6,20 +6,20 @@ import {logoutTh} from "../../state/LoginReducer";
 import {Link} from "react-router-dom";
 
 const NavBar = () => {
-    let dispatch=useDispatch()
-    let loginStatus=useSelector<AppRootState>(state => state.login.isLoggin)
+    let dispatch = useDispatch()
+    let loginStatus = useSelector<AppRootState>(state => state.login.isLoggin)
 
     const items: MenuProps['items'] = [
         {
-            label: loginStatus==true?'Logout':'Login',
-            key: loginStatus==true?'Logout':'Login',
+            label: loginStatus === true ? 'Logout' : 'Login',
+            key: loginStatus === true ? 'Logout' : 'Login',
 
         }
     ]
 
-    let logout=()=>{
+    let logout = () => {
         // @ts-ignore
-        if (loginStatus==true){
+        if (loginStatus ===true) {
             // @ts-ignore
             dispatch(logoutTh())
         }
@@ -27,7 +27,7 @@ const NavBar = () => {
 
     return (
         <div>
-            <Link onClick={()=>logout()} to={loginStatus==false?'/login':'/'}>
+            <Link onClick={() => logout()} to={loginStatus === false ? '/login' : '/'}>
                 <Menu
                     className={'header'}
                     triggerSubMenuAction={'hover'}

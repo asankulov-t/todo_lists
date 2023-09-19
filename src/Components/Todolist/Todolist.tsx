@@ -28,31 +28,31 @@ const Todolist = React.memo(() => {
 
     useEffect(() => {
         // @ts-ignore
-        if (loginStatus==true){
+        if (loginStatus===true){
             // @ts-ignore
             dispatch(fetchDataTodoTh())
         }
-    }, [])
+    }, [dispatch, loginStatus])
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     const localAddFunc = useCallback((id:string,title: string) => {
         // @ts-ignore
         dispatch(addTaskTh(id,title))
-    }, [dispatch, addTaskTh])
+    }, [dispatch])
 
     let addTodo = useCallback((id:string,title: string) => {
         // @ts-ignore
         dispatch(addTodoListTh(title))
-    }, [dispatch,addTodoListTh])
+    }, [dispatch])
 
     const changeTodoTitleHendler = useCallback((id:string,title: string) => {
         // @ts-ignore
         dispatch(changeTodoTitleTh(id, title))
-    }, [dispatch,changeTodoTitleTh])
+    }, [dispatch])
 
     let removeTodo = useCallback((id: string) => {
         // @ts-ignore
         dispatch(deleteTodoTh(id))
-    }, [dispatch,deleteTodoTh])
+    }, [dispatch])
     if (!loginStatus){
         return <Navigate to={'/login'}/>
     }

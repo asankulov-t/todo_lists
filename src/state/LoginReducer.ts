@@ -1,4 +1,4 @@
-import {LoginResType, loginType, TODOLISTAPI} from "../Api/Api";
+import { loginType, TODOLISTAPI} from "../Api/Api";
 import {Dispatch} from "redux";
 import {setStatusAc} from "./api_status";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -11,47 +11,45 @@ const slice = createSlice({
     name: "auth",
     initialState: initState,
     reducers: {
-        setLogginAc(state, action:PayloadAction<{value:boolean}>){
-            state.isLoggin=action.payload.value
+        setLogginAc(state, action: PayloadAction<{ value: boolean }>) {
+            state.isLoggin = action.payload.value
         }
     }
 })
 
 const setLogginAc = slice.actions.setLogginAc
-
 export const LoginReducer = slice.reducer;
-
 export const LoginFetchTh = (data: loginType) => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error:null, status:"loading"}))
+    dispatch(setStatusAc({error: null, status: "loading"}))
     TODOLISTAPI.authAPI(data).then((r) => {
         if (r.data.resultCode === 0) {
-            dispatch(setLogginAc({value:true}))
-            dispatch(setStatusAc({error:null, status:"succeess"}))
+            dispatch(setLogginAc({value: true}))
+            dispatch(setStatusAc({error: null, status: "succeess"}))
         } else {
             dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error:r.data.messages[0], status:'failed'}))
+            dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
         }
 
     })
         .catch((error) => {
-            dispatch(setLogginAc({value:false}))
-            dispatch(setStatusAc({error:error.messages, status:'failed'}))
+            dispatch(setLogginAc({value: false}))
+            dispatch(setStatusAc({error: error.messages, status: 'failed'}))
         })
 }
 
 export const logoutTh = () => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error:null, status:"loading"}))
+    dispatch(setStatusAc({error: null, status: "loading"}))
     TODOLISTAPI.logoutApi().then((r) => {
         if (r.data.resultCode === 0) {
-            dispatch(setLogginAc({value:true}))
-            dispatch(setStatusAc({error:null, status:"succeess"}))
+            dispatch(setLogginAc({value: true}))
+            dispatch(setStatusAc({error: null, status: "succeess"}))
         } else {
-            dispatch(setLogginAc({value:false}))
-            dispatch(setStatusAc({error:r.data.messages[0], status:'failed'}))
+            dispatch(setLogginAc({value: false}))
+            dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
         }
     })
         .catch((error) => {
-            dispatch(setLogginAc({value:false}))
-            dispatch(setStatusAc({error:error.data.messages[0], status:'failed'}))
+            dispatch(setLogginAc({value: false}))
+            dispatch(setStatusAc({error: error.data.messages[0], status: 'failed'}))
         })
 }

@@ -7,14 +7,14 @@ import {store} from "./state/store";
 import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-   <Provider store={store}>
-       <BrowserRouter>
-           <AppWithReducer />
-       </BrowserRouter>
-   </Provider>
+    <Provider store={store}>
+        <BrowserRouter>
+            <AppWithReducer/>
+        </BrowserRouter>
+    </Provider>
 );
 
 

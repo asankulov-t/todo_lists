@@ -1,36 +1,37 @@
 import React, {ChangeEvent, useState} from 'react';
 import style from './EditableSpan.module.css'
 import {Input} from "antd";
+
 export type EditType = {
     title: string,
-    onChange:(id:string,title:string)=>void,
-    id:string
+    onChange: (id: string, title: string) => void,
+    id: string
 }
-
-
 const EditableSpan = React.memo((props: EditType) => {
-    let [editMode, setEditMode]=useState(false)
-    let [title, setTitle]=useState(props.title?props.title:'')
+    let [editMode, setEditMode] = useState(false)
+    let [title, setTitle] = useState(props.title ? props.title : '')
 
-    const onChangeTitleHandler=(e:ChangeEvent<HTMLInputElement>)=>{
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    const activeMode=()=>{
+    const activeMode = () => {
         setEditMode(true)
     }
-    const viewModeActivate=()=>{
+    const viewModeActivate = () => {
         setEditMode(false)
-        props.onChange(props.id,title)
+        props.onChange(props.id, title)
     }
     return (
-        <div >
+        <div>
             {editMode ? <Input
-                                onChange={onChangeTitleHandler}
-                                onBlur={viewModeActivate}
-                                autoFocus
-                                type="text"
-                                value={title}/> :
-                <span className={style.span} onDoubleClick={activeMode}>{title}</span>}
+                    onChange={onChangeTitleHandler}
+                    onBlur={viewModeActivate}
+                    autoFocus
+                    type="text"
+                    value={title}/> :
+                <span className={style.span}
+                      onDoubleClick={activeMode}>{title}
+                </span>}
         </div>
     );
 })

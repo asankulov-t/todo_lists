@@ -1,64 +1,62 @@
 import {LoginResType, loginType, TODOLISTAPI} from "../Api/Api";
 import {Dispatch} from "redux";
 import {actions, setStatusAc} from "./api_status";
+import {createSlice} from "@reduxjs/toolkit";
 
-type initType={
-    isLoggin:boolean
+let initState = {
+    isLoggin: false
+}
+type actionType = {
+    type: 'LOGINED',
+    isLoggin: boolean
 }
 
-let initState:initType={
-    isLoggin:false
-}
-type actionType={
-    type:'LOGINED',
-    isLoggin:boolean
-}
-export const setLogginAc=(loggin:boolean):actionType=>{
-    return {
-        type:'LOGINED',
-        isLoggin:loggin
+
+
+const slice = createSlice({
+    name: "auth",
+    initialState: initState,
+    reducers: {
+        setLogginAc(state, action){
+            state.isLoggin=action.payload
+        }
     }
-}
+})
 
-export const LoginReducer=(state:initType=initState,action:actionType):initType=>{
-    switch (action.type){
-        case "LOGINED":
-            return {...state, isLoggin:action.isLoggin}
-        default:
-            return state
-    }
-}
-export const LoginFetchTh=(data:loginType)=>(dispatch:Dispatch<actionType|actions>)=>{
+const setLogginAc = slice.actions.setLogginAc
+
+export const LoginReducer = slice.reducer;
+
+export const LoginFetchTh = (data: loginType) => (dispatch: Dispatch) => {
     dispatch(setStatusAc(null, 'loading'))
-    TODOLISTAPI.authAPI(data).then((r)=>{
-        if (r.data.resultCode===0){
+    TODOLISTAPI.authAPI(data).then((r) => {
+        if (r.data.resultCode === 0) {
             dispatch(setLogginAc(true))
             dispatch(setStatusAc(null, 'succeess'))
-        }else {
+        } else {
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(r.data.messages[0], 'failed'))
         }
 
     })
-    .catch((error)=>{
+        .catch((error) => {
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(error.messages, 'failed'))
-    })
+        })
 }
 
-export const logoutTh=()=>(dispatch:Dispatch<actionType|actions>)=>{
+export const logoutTh = () => (dispatch: Dispatch) => {
     dispatch(setStatusAc(null, 'loading'))
-    TODOLISTAPI.logoutApi().then((r)=>{
-        if (r.data.resultCode===0){
+    TODOLISTAPI.logoutApi().then((r) => {
+        if (r.data.resultCode === 0) {
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(null, 'succeess'))
-        }else {
+        } else {
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(r.data.messages[0], 'failed'))
         }
-
     })
-        .catch((error)=>{
+        .catch((error) => {
             dispatch(setLogginAc(false))
             dispatch(setStatusAc(error.messages, 'failed'))
         })

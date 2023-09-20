@@ -1,10 +1,10 @@
-import {setTodosAc, addTodoAc, removeTdAc} from "./TodoList-reducer";
+import {addTodoAc, removeTdAc, setTodosAc} from "./TodoList-reducer";
 import {TasksStateType} from "../AppWithReducer";
 import {Dispatch} from "redux";
 import {TaskStatuses, TODOLISTAPI, updateTaksType} from "../Api/Api";
 import {AppRootState} from "./store";
 import {setStatusAc} from "./api_status";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type taskType = {
     description?: string
@@ -29,17 +29,34 @@ export type localupdateTaksType = {
 
 const initialState: TasksStateType = {}
 
+export let fetchDataTaskTh=createAsyncThunk('tasks/fetchTasks',(todoId: string,thunkAPI)=>{
+    thunkAPI.dispatch(setStatusAc({error: null, status: 'loading'}))
+    return TODOLISTAPI.getTasks(todoId)
+        .then(r => {
+            thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
+            return {tasks: r.data.items, todoListID: todoId}
+        })
+})
+export const deleteTaskTh=createAsyncThunk('tasks/deleteTask',(param:{todoId: string, taskId: string}, thunkAPI)=>{
+    let {todoId,taskId}=param;
+    thunkAPI.dispatch(setStatusAc({error: null, status: 'loading'}))
+    return TODOLISTAPI.deleteTask(todoId, taskId)
+        .then(r => {
+
+                thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
+               return {todoId, id: taskId}
+
+            // else {
+            //     thunkAPI.dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
+            //
+            // }
+        })
+})
 const slice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        removeTaskAc(state, action: PayloadAction<{ todoId: string, id: string }>) {
-            const tasks = state[action.payload.todoId];
-            let ind = tasks.findIndex(t => t.id=== action.payload.id);
-            if (ind > -1) {
-                tasks.splice(ind, 1)
-            }
-        },
+
         addTaskAc(state, action: PayloadAction<{ task: taskType }>) {
             state[action.payload.task.todoListId].unshift(action.payload.task)
         },
@@ -48,9 +65,6 @@ const slice = createSlice({
             let ind = tasks.findIndex(t => t.id === action.payload.taskId);
             tasks[ind] = {...tasks[ind], ...action.payload.model}
         },
-        setTasksAc(state, action: PayloadAction<{ tasks: Array<taskType>, todoListID: string }>) {
-            state[action.payload.todoListID] = action.payload.tasks
-        }
     },
     extraReducers: (builder) => {
         builder.addCase(addTodoAc, (state, action) => {
@@ -62,39 +76,39 @@ const slice = createSlice({
         builder.addCase(setTodosAc, (state, action) => {
             action.payload.map((t) => t)
         });
+        builder.addCase(fetchDataTaskTh.fulfilled,(state, action)=>{
+            state[action.payload.todoListID]=action.payload.tasks
+        });
+        builder.addCase(deleteTaskTh.fulfilled,(state, action)=>{
+            const tasks = state[action.payload.todoId];
+            let ind = tasks.findIndex(t => t.id=== action.payload.id);
+            if (ind > -1) {
+                tasks.splice(ind, 1)
+            }
+        })
     }
 })
 
 
 export const tasksReducer = slice.reducer
 
-export const {removeTaskAc, addTaskAc, changeTaskAc, setTasksAc} = slice.actions
+export const {addTaskAc, changeTaskAc} = slice.actions
 //actions
 
 
 //thunks
-export const fetchDataTaskTh = (todoId: string) => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error: null, status: 'loading'}))
-    TODOLISTAPI.getTasks(todoId)
-        .then(r => {
-            dispatch(setTasksAc({tasks: r.data.items, todoListID: todoId}))
-            dispatch(setStatusAc({error: null, status: 'succeess'}))
-        })
-        .catch((error) => {
-            dispatch(setStatusAc({error: error, status: 'failed'}))
-        })
-}
-export const deleteTaskTh = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error: null, status: 'loading'}))
-    TODOLISTAPI.deleteTask(todoId, taskId)
-        .then(r => {
-            dispatch(removeTaskAc({todoId, id: taskId}))
-            dispatch(setStatusAc({error: null, status: 'succeess'}))
-        })
-        .catch((error) => {
-            dispatch(setStatusAc({error: error, status: 'failed'}))
-        })
-}
+
+// export const deleteTaskTh_ = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
+//     dispatch(setStatusAc({error: null, status: 'loading'}))
+//     TODOLISTAPI.deleteTask(todoId, taskId)
+//         .then(r => {
+//             dispatch(removeTaskAc({todoId, id: taskId}))
+//             dispatch(setStatusAc({error: null, status: 'succeess'}))
+//         })
+//         .catch((error) => {
+//             dispatch(setStatusAc({error: error, status: 'failed'}))
+//         })
+// }
 export const addTaskTh = (todoId: string, title: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAc({error: null, status: 'loading'}))
     TODOLISTAPI.createTask(todoId, title)

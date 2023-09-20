@@ -1,6 +1,6 @@
 import {TODOLISTAPI, TodoListType} from "../Api/Api";
 import {Dispatch} from "redux";
-import { setStatusAc} from "./api_status";
+import {setStatusAc} from "./api_status";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type TodoListEntityType = {

@@ -6,14 +6,13 @@ import {DeleteOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 
-import {
-   addTaskTh,
-} from "../../state/Tasks-reducer";
+import {addTaskTh,} from "../../state/Tasks-reducer";
 
 import {
     addTodoListTh,
     changeTodoTitleTh,
-    deleteTodoTh, fetchDataTodoTh,
+    deleteTodoTh,
+    fetchDataTodoTh,
     TodoListEntityType
 } from "../../state/TodoList-reducer";
 import Tasks from "../Tasks/Tasks";
@@ -21,11 +20,10 @@ import {Card} from "antd";
 import {Navigate} from "react-router-dom";
 
 
-
 const Todolist = React.memo(() => {
     const dispatch = useDispatch();
     let loginStatus=useSelector<AppRootState>(state => state.login.isLoggin)
-
+    console.log(loginStatus)
     useEffect(() => {
         // @ts-ignore
         if (loginStatus===true){
@@ -33,6 +31,7 @@ const Todolist = React.memo(() => {
             dispatch(fetchDataTodoTh())
         }
     }, [dispatch, loginStatus])
+
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     const localAddFunc = useCallback((id:string,title: string) => {
         // @ts-ignore
@@ -53,7 +52,7 @@ const Todolist = React.memo(() => {
         // @ts-ignore
         dispatch(deleteTodoTh(id))
     }, [dispatch])
-    if (!loginStatus){
+    if (loginStatus===false){
         return <Navigate to={'/login'}/>
     }
     return (

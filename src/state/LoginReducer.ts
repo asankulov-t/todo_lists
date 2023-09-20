@@ -1,4 +1,4 @@
-import { loginType, TODOLISTAPI} from "../Api/Api";
+import {loginType, TODOLISTAPI} from "../Api/Api";
 import {Dispatch} from "redux";
 import {setStatusAc} from "./api_status";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -41,7 +41,7 @@ export const logoutTh = () => (dispatch: Dispatch) => {
     dispatch(setStatusAc({error: null, status: "loading"}))
     TODOLISTAPI.logoutApi().then((r) => {
         if (r.data.resultCode === 0) {
-            dispatch(setLogginAc({value: true}))
+            dispatch(setLogginAc({value: false}))
             dispatch(setStatusAc({error: null, status: "succeess"}))
         } else {
             dispatch(setLogginAc({value: false}))

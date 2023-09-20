@@ -3,7 +3,7 @@ import {Menu, MenuProps} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../state/store";
 import {logoutTh} from "../../state/LoginReducer";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 const NavBar = () => {
     let dispatch = useDispatch()
@@ -22,6 +22,7 @@ const NavBar = () => {
         if (loginStatus ===true) {
             // @ts-ignore
             dispatch(logoutTh())
+            return <Navigate to={'/login'}/>
         }
     }
 

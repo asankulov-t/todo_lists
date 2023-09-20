@@ -18,8 +18,12 @@ export type taskType = {
 const Task = React.memo((props:taskType) => {
     const dispatch = useDispatch();
     const onRemoveHandler = () => {
+        let param={
+            todoId:props.tdId,
+            taskId:props.taskId
+        }
         // @ts-ignore
-        dispatch(deleteTaskTh(props.tdId,props.taskId))
+        dispatch(deleteTaskTh(param))
         }
 
     const changeCheck = () => {

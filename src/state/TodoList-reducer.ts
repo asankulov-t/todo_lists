@@ -100,4 +100,3 @@ export const changeTodoTitleTh = (todoId: string, title: string) => (dispatch: D
         })
 };
 
-// type thunkDispatch = Dispatch<actionTypes | actions>

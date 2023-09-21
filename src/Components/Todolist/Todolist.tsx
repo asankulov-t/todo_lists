@@ -35,7 +35,7 @@ const Todolist = React.memo(() => {
     const todoLists = useSelector<AppRootState, Array<TodoListEntityType>>(state => state.todoLists);
     const localAddFunc = useCallback((id:string,title: string) => {
         // @ts-ignore
-        dispatch(addTaskTh(id,title))
+        dispatch(addTaskTh({todoId:id, title}))
     }, [dispatch])
 
     let addTodo = useCallback((id:string,title: string) => {

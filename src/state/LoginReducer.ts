@@ -1,12 +1,18 @@
 import {loginType, TODOLISTAPI} from "../Api/Api";
 import {Dispatch} from "redux";
 import {setStatusAc} from "./api_status";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 let initState = {
     isLoggin: false
 }
+export const LoginFetchTh_=createAsyncThunk('auth/login', async (param:loginType,thunkAPI)=>{
+    try {
+        let res=await TODOLISTAPI.authAPI(param);
+        return
+    }
 
+})
 const slice = createSlice({
     name: "auth",
     initialState: initState,

@@ -29,37 +29,48 @@ export type localupdateTaksType = {
 
 const initialState: TasksStateType = {}
 
-export let fetchDataTaskTh=createAsyncThunk('tasks/fetchTasks',(todoId: string,thunkAPI)=>{
+export let fetchDataTaskTh=createAsyncThunk('tasks/fetchTasks',async (todoId: string,thunkAPI)=>{
     thunkAPI.dispatch(setStatusAc({error: null, status: 'loading'}))
-    return TODOLISTAPI.getTasks(todoId)
-        .then(r => {
-            thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
-            return {tasks: r.data.items, todoListID: todoId}
-        })
+    const res= await TODOLISTAPI.getTasks(todoId)
+    thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
+    return {tasks: res.data.items, todoListID: todoId}
 })
 export const deleteTaskTh=createAsyncThunk('tasks/deleteTask',(param:{todoId: string, taskId: string}, thunkAPI)=>{
     let {todoId,taskId}=param;
     thunkAPI.dispatch(setStatusAc({error: null, status: 'loading'}))
     return TODOLISTAPI.deleteTask(todoId, taskId)
         .then(r => {
-
                 thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
                return {todoId, id: taskId}
-
-            // else {
-            //     thunkAPI.dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
-            //
-            // }
         })
 })
+
+export const addTaskTh=createAsyncThunk('tasks/addTask',(param:{todoId: string, title: string},thunkAPI)=>{
+    let{todoId, title}=param;
+    thunkAPI.dispatch(setStatusAc({error: null, status: 'loading'}))
+    return TODOLISTAPI.createTask(todoId, title).then(r=>{
+        thunkAPI.dispatch(setStatusAc({error: null, status: 'succeess'}))
+        return r.data.data.item
+    })
+})
+
+// export const changeStatusTh=createAsyncThunk('tasks/change',(param:{todoId: string, domainData: localupdateTaksType, taskId: string}, thunkAPI)=>{
+//     let {todoId, domainData, taskId}=param;
+//
+//    return TODOLISTAPI.changeTask(todoId, taskId, model)
+//         .then(r => {
+//             dispatch(changeTaskAc({todoId: todoId, taskId: taskId, model}))
+//             dispatch(setStatusAc({error: null, status: 'succeess'}))
+//         })
+//         .catch((error) => {
+//             dispatch(setStatusAc({error, status: 'failed'}))
+//         })
+// })
+
 const slice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-
-        addTaskAc(state, action: PayloadAction<{ task: taskType }>) {
-            state[action.payload.task.todoListId].unshift(action.payload.task)
-        },
         changeTaskAc(state, action: PayloadAction<{ todoId: string, taskId: string, model: localupdateTaksType }>) {
             const tasks = state[action.payload.todoId];
             let ind = tasks.findIndex(t => t.id === action.payload.taskId);
@@ -85,6 +96,9 @@ const slice = createSlice({
             if (ind > -1) {
                 tasks.splice(ind, 1)
             }
+        });
+        builder.addCase(addTaskTh.fulfilled,(state, action)=>{
+            state[action.payload.todoListId].unshift(action.payload)
         })
     }
 })
@@ -92,34 +106,11 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer
 
-export const {addTaskAc, changeTaskAc} = slice.actions
+export const { changeTaskAc} = slice.actions
 //actions
 
 
-//thunks
 
-// export const deleteTaskTh_ = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
-//     dispatch(setStatusAc({error: null, status: 'loading'}))
-//     TODOLISTAPI.deleteTask(todoId, taskId)
-//         .then(r => {
-//             dispatch(removeTaskAc({todoId, id: taskId}))
-//             dispatch(setStatusAc({error: null, status: 'succeess'}))
-//         })
-//         .catch((error) => {
-//             dispatch(setStatusAc({error: error, status: 'failed'}))
-//         })
-// }
-export const addTaskTh = (todoId: string, title: string) => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error: null, status: 'loading'}))
-    TODOLISTAPI.createTask(todoId, title)
-        .then(r => {
-            dispatch(addTaskAc({task: r.data.data.item}))
-            dispatch(setStatusAc({error: null, status: 'succeess'}))
-        })
-        .catch((error) => {
-            dispatch(setStatusAc({error: error, status: 'failed'}))
-        })
-}
 export const changeStatusTh = (todoId: string, doimainData: localupdateTaksType, taskId: string) => (dispatch: Dispatch, getState: () => AppRootState) => {
     const state = getState();
     const currentTask = state.tasks[todoId].find(t => t.id === taskId)

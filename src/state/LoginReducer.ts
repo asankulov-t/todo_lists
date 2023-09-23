@@ -6,12 +6,39 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 let initState = {
     isLoggin: false
 }
-export const LoginFetchTh_=createAsyncThunk('auth/login', async (param:loginType,thunkAPI)=>{
-    try {
-        let res=await TODOLISTAPI.authAPI(param);
-        return
-    }
+export const LoginFetchTh=createAsyncThunk('auth/login', async (param:loginType,thunkAPI)=>{
+        try {
+            thunkAPI.dispatch(setStatusAc({error: null, status: "loading"}))
+            let res=await TODOLISTAPI.authAPI(param);
+            if (res.data.resultCode===0){
+                thunkAPI.dispatch(setStatusAc({error: null, status: "succeess"}))
+                return {isLoggin:true}
+            }else {
+                return {isLoggin:false}
 
+            }
+        }catch (e){
+            thunkAPI.dispatch(setStatusAc({error: 'Some error', status: "failed"}))
+            return {isLoggin:false}
+        }
+})
+
+export const logoutTh=createAsyncThunk('auth/out', async (arg, thunkAPI)=>{
+    try {
+        thunkAPI.dispatch(setStatusAc({error: null, status: "loading"}))
+        let res=await  TODOLISTAPI.logoutApi()
+        if (res.data.resultCode===0){
+            thunkAPI.dispatch(setStatusAc({error: null, status: "succeess"}))
+            return{isLoggin:false}
+        }else {
+            thunkAPI.dispatch(setStatusAc({error: res.data.messages[0], status: "failed"}))
+            return{isLoggin:true}
+        }
+    }
+    catch (e){
+        thunkAPI.dispatch(setStatusAc({error: 'some Error', status: "failed"}))
+        return{isLoggin:true}
+    }
 })
 const slice = createSlice({
     name: "auth",
@@ -20,42 +47,16 @@ const slice = createSlice({
         setLogginAc(state, action: PayloadAction<{ value: boolean }>) {
             state.isLoggin = action.payload.value
         }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(LoginFetchTh.fulfilled,(state, action) => {
+                state.isLoggin=action.payload.isLoggin
+        });
+        builder.addCase(logoutTh.fulfilled,(state, action) => {
+            state.isLoggin=action.payload.isLoggin
+        })
     }
 })
 
 const setLogginAc = slice.actions.setLogginAc
 export const LoginReducer = slice.reducer;
-export const LoginFetchTh = (data: loginType) => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error: null, status: "loading"}))
-    TODOLISTAPI.authAPI(data).then((r) => {
-        if (r.data.resultCode === 0) {
-            dispatch(setLogginAc({value: true}))
-            dispatch(setStatusAc({error: null, status: "succeess"}))
-        } else {
-            dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
-        }
-
-    })
-        .catch((error) => {
-            dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error: error.messages, status: 'failed'}))
-        })
-}
-
-export const logoutTh = () => (dispatch: Dispatch) => {
-    dispatch(setStatusAc({error: null, status: "loading"}))
-    TODOLISTAPI.logoutApi().then((r) => {
-        if (r.data.resultCode === 0) {
-            dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error: null, status: "succeess"}))
-        } else {
-            dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error: r.data.messages[0], status: 'failed'}))
-        }
-    })
-        .catch((error) => {
-            dispatch(setLogginAc({value: false}))
-            dispatch(setStatusAc({error: error.data.messages[0], status: 'failed'}))
-        })
-}

@@ -19,10 +19,11 @@ type FieldType = {
 const Login = () => {
     let isLogin=useSelector<AppRootState, boolean>(state => state.login.isLoggin)
     let dis=useDispatch()
-    const onFinish = (values: loginType) => {
-        console.log(values)
+    const onFinish = async (values: loginType) => {
         // @ts-ignore
-        dis(LoginFetchTh(values))
+        let res=await dis(LoginFetchTh(values))
+        // @ts-ignore
+        res()
     };
 
     if (isLogin){
